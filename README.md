@@ -17,4 +17,4 @@ Východniari
 Licence
 -------
 
-Tento program je poskytovan licenci GNU GPL v3.0
+Tento program je poskytovan licenci [GNU GPL v3.0](./LICENSE)
