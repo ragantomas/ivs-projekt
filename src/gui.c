@@ -1,14 +1,13 @@
 //======= Copyright (c) 2026, FIT VUT Brno, All rights reserved. ============//
 //
-// Purpose:     White Box - suffixový automat
+// Purpose:     calculator GUI
 //
-// $NoKeywords: $ivs_project_1 $white_box_code.cpp
-// $Authors:    Martin Dočekal <idocekal@fit.vutbr.cz>
-//              Maksim Aparovich <iaparovich@fit.vut.cz>
+// $NoKeywords: $ivs_project_2 $gui.cpp
+// $Authors:    Daniel Kratky <xkratkd00@stud.fit.vut.cz>
 // $Date:       $2026-04-22
 //============================================================================//
 /**
- * @file white_box_code.cpp
+ * @file gui.cpp
  * @author Daniel Kratky
  *
  * @brief graphic user interface of the calculator app
