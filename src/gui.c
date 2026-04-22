@@ -2,22 +2,27 @@
 //
 // Purpose:     calculator GUI
 //
-// $NoKeywords: $ivs_project_2 $gui.cpp
+// $NoKeywords: $ivs_project_2 $gui.c
 // $Authors:    Daniel Kratky <xkratkd00@stud.fit.vut.cz>
 // $Date:       $2026-04-22
 //============================================================================//
 /**
- * @file gui.cpp
+ * @file gui.c
  * @author Daniel Kratky
  *
- * @brief graphic user interface of the calculator app
+ * @brief graphical user interface of the calculator app
  */
+#include "gui.h"
+#include <stdio.h>
 
-#include <gtk/gtk.h>
+/**
+ * @brief Global entry widget (defined here, declared in header)
+ */
+GtkWidget *entry = NULL;
 
-GtkWidget *entry;
-
-// Button click handler
+/**
+ * @brief Handles button clicks (numbers and operators)
+ */
 void on_button_clicked(GtkWidget *widget, gpointer data) {
     const char *button_text = gtk_button_get_label(GTK_BUTTON(widget));
     const char *current_text = gtk_entry_get_text(GTK_ENTRY(entry));
@@ -28,17 +33,22 @@ void on_button_clicked(GtkWidget *widget, gpointer data) {
     gtk_entry_set_text(GTK_ENTRY(entry), new_text);
 }
 
-// Clear button
+/**
+ * @brief Clears the display
+ */
 void on_clear_clicked(GtkWidget *widget, gpointer data) {
     gtk_entry_set_text(GTK_ENTRY(entry), "");
 }
 
-int main(int argc, char *argv[]) {
+/**
+ * @brief Initializes and runs the calculator GUI
+ */
+int run_calculator(int argc, char *argv[]) {
     GtkWidget *window, *grid;
 
     gtk_init(&argc, &argv);
 
-    // Create window
+    // Create main window
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(window), "Calculator");
     gtk_window_set_default_size(GTK_WINDOW(window), 250, 300);
@@ -49,11 +59,11 @@ int main(int argc, char *argv[]) {
     grid = gtk_grid_new();
     gtk_container_add(GTK_CONTAINER(window), grid);
 
-    // Display entry
+    // Create display entry
     entry = gtk_entry_new();
     gtk_grid_attach(GTK_GRID(grid), entry, 0, 0, 4, 1);
 
-    // Buttons
+    // Button labels
     const char *buttons[] = {
         "7","8","9","/",
         "4","5","6","*",
@@ -85,4 +95,11 @@ int main(int argc, char *argv[]) {
     gtk_main();
 
     return 0;
+}
+
+/**
+ * @brief Program entry point
+ */
+int main(int argc, char *argv[]) {
+    return run_calculator(argc, argv);
 }
