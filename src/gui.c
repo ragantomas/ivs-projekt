@@ -1,10 +1,10 @@
-//======= Copyright (c) 2026, FIT VUT Brno, All rights reserved. ============//
+//======= Copyright (c) 2026, FIT VUT Brno, GNU GPL V3.0 ============//
 //
 // Purpose:     calculator GUI
 //
 // $NoKeywords: $ivs_project_2 $gui.c
 // $Authors:    Daniel Kratky <xkratkd00@stud.fit.vut.cz>
-// $Date:       $2026-04-22
+// $Date:       $2026-04-23
 //============================================================================//
 /**
  * @file gui.c
@@ -94,17 +94,20 @@ int run_calculator(int argc, char *argv[]) {
     int row = 1, col = 0;
 
     for (int i = 0; i < 22; i++) {
-        GtkWidget *btn = gtk_button_new_with_label(buttons[i]);
+        GtkWidget *button = gtk_button_new_with_label(buttons[i]);
+        char message[30];
+        strcpy(message, "This is a button ");
+        gtk_widget_set_tooltip_text(button, strcat(message, buttons[i]));
 
         if (buttons[i][0] == 'C') {
-            g_signal_connect(btn, "clicked", G_CALLBACK(on_clear_clicked), NULL);
+            g_signal_connect(button, "clicked", G_CALLBACK(on_clear_clicked), NULL);
         } else if (buttons[i][0] == 'B') {
-            g_signal_connect(btn, "clicked", G_CALLBACK(on_backspace_clicked), NULL);
+            g_signal_connect(button, "clicked", G_CALLBACK(on_backspace_clicked), NULL);
         } else {
-            g_signal_connect(btn, "clicked", G_CALLBACK(on_button_clicked), NULL);
+            g_signal_connect(button, "clicked", G_CALLBACK(on_button_clicked), NULL);
         }
 
-        gtk_grid_attach(GTK_GRID(grid), btn, col, row, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), button, col, row, 1, 1);
 
         col++;
         if (col == 4) {
