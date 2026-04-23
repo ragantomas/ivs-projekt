@@ -14,6 +14,7 @@
  */
 #include "gui.h"
 #include <stdio.h>
+#include <string.h>
 
 /**
  * Global entry widget (defined here, declared in header)
@@ -38,6 +39,21 @@ void on_button_clicked(GtkWidget *widget, gpointer data) {
  */
 void on_clear_clicked(GtkWidget *widget, gpointer data) {
     gtk_entry_set_text(GTK_ENTRY(entry), "");
+}
+
+/**
+ * Deletes last character on the display
+ */
+void on_backspace_clicked(GtkWidget *widget, gpointer data) {
+    const char *text = gtk_entry_get_text(GTK_ENTRY(entry));
+    int len = strlen(text);
+
+    if (len > 0) {
+        char new_text[256];
+        strncpy(new_text, text, len - 1);
+        new_text[len - 1] = '\0';
+        gtk_entry_set_text(GTK_ENTRY(entry), new_text);
+    }
 }
 
 /**
@@ -82,6 +98,8 @@ int run_calculator(int argc, char *argv[]) {
 
         if (buttons[i][0] == 'C') {
             g_signal_connect(btn, "clicked", G_CALLBACK(on_clear_clicked), NULL);
+        } else if (buttons[i][0] == 'B') {
+            g_signal_connect(btn, "clicked", G_CALLBACK(on_backspace_clicked), NULL);
         } else {
             g_signal_connect(btn, "clicked", G_CALLBACK(on_button_clicked), NULL);
         }
