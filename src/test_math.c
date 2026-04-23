@@ -1,3 +1,12 @@
+//======= Copyright (c) 2026, FIT VUT Brno, All rights reserved. ============//
+//
+// Purpose:     math test
+//
+// $NoKeywords: $ivs_project_2 $test_math.c
+// $Authors:    Radek Zak <xzakrad00@stud.fit.vut.cz>
+// $Date:       $2026-04-10
+//============================================================================//
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
