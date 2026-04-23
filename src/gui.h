@@ -6,61 +6,69 @@
 // $Authors:    Daniel Kratky <xkratkd00@stud.fit.vut.cz>
 // $Date:       $2026-04-22
 //============================================================================//
+#ifndef GUI_H
+#define GUI_H
+
 /**
  * @file gui.h
  * @author Daniel Kratky
  *
- * @brief header file of graphical user interface of the calculator app
+ * @brief Header file for the graphical user interface of the calculator app
+ *
  * This file declares the global variables and function prototypes
  * used in the calculator program. The calculator provides a basic
  * graphical user interface (GUI) with buttons and a display field
  */
-#ifndef GUI_H
-#define GUI_H
 
 #include <gtk/gtk.h>
 
 /**
  * @brief Global pointer to the calculator display entry widget
  *
- * This widget is used to show user input and results
- * It is updated when buttons are clicked
+ * This widget is used to display user input and results.
  */
 extern GtkWidget *entry;
 
 /**
- * @brief Callback function for handling button clicks
+ * @brief Handles button clicks (numbers and operators)
  *
- * This function is triggered whenever a calculator button
- * (numbers or operators) is pressed.
+ * Appends the pressed button's label to the display.
  *
- * @param widget Pointer to the GTK widget that triggered the event
- * @param data Optional user data (not used here)
+ * @param widget Pointer to the button widget
+ * @param data Optional user data (unused)
  */
 void on_button_clicked(GtkWidget *widget, gpointer data);
 
 /**
- * @brief Callback function for clearing the display.
+ * @brief Clears the display
  *
- * This function is triggered when the "C" (clear) button is pressed
- * It resets the display to an empty string
+ * Sets the display text to an empty string.
  *
- * @param widget Pointer to the GTK widget that triggered the event
- * @param data Optional user data (not used here)
+ * @param widget Pointer to the button widget
+ * @param data Optional user data (unused)
  */
 void on_clear_clicked(GtkWidget *widget, gpointer data);
 
 /**
- * @brief Initializes and runs the calculator application
+ * @brief Deletes the last character from the display
  *
- * This function sets up the GTK environment, creates the main window,
- * initializes all UI components (grid, buttons, display), and starts
- * the GTK main event loop
+ * Removes the last character in the entry field if it exists.
+ *
+ * @param widget Pointer to the button widget
+ * @param data Optional user data (unused)
+ */
+void on_backspace_clicked(GtkWidget *widget, gpointer data);
+
+/**
+ * @brief Initializes and runs the calculator GUI
+ *
+ * Creates the window, sets up all widgets, and starts
+ * the GTK main event loop.
  *
  * @param argc Argument count from main()
  * @param argv Argument vector from main()
- * @return int Exit status of the application
+ * @return int Exit status
  */
 int run_calculator(int argc, char *argv[]);
 
-#endif
+#endif // GUI_H

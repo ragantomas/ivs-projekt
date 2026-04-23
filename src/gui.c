@@ -1,10 +1,10 @@
-//======= Copyright (c) 2026, FIT VUT Brno, All rights reserved. ============//
+//======= Copyright (c) 2026, FIT VUT Brno, GNU GPL V3.0 ============//
 //
 // Purpose:     calculator GUI
 //
 // $NoKeywords: $ivs_project_2 $gui.c
 // $Authors:    Daniel Kratky <xkratkd00@stud.fit.vut.cz>
-// $Date:       $2026-04-22
+// $Date:       $2026-04-23
 //============================================================================//
 /**
  * @file gui.c
@@ -14,14 +14,15 @@
  */
 #include "gui.h"
 #include <stdio.h>
+#include <string.h>
 
 /**
- * @brief Global entry widget (defined here, declared in header)
+ * Global entry widget (defined here, declared in header)
  */
 GtkWidget *entry = NULL;
 
 /**
- * @brief Handles button clicks (numbers and operators)
+ * Handles button clicks (numbers and operators)
  */
 void on_button_clicked(GtkWidget *widget, gpointer data) {
     const char *button_text = gtk_button_get_label(GTK_BUTTON(widget));
@@ -34,14 +35,29 @@ void on_button_clicked(GtkWidget *widget, gpointer data) {
 }
 
 /**
- * @brief Clears the display
+ * Clears the display
  */
 void on_clear_clicked(GtkWidget *widget, gpointer data) {
     gtk_entry_set_text(GTK_ENTRY(entry), "");
 }
 
 /**
- * @brief Initializes and runs the calculator GUI
+ * Deletes last character on the display
+ */
+void on_backspace_clicked(GtkWidget *widget, gpointer data) {
+    const char *text = gtk_entry_get_text(GTK_ENTRY(entry));
+    int len = strlen(text);
+
+    if (len > 0) {
+        char new_text[256];
+        strncpy(new_text, text, len - 1);
+        new_text[len - 1] = '\0';
+        gtk_entry_set_text(GTK_ENTRY(entry), new_text);
+    }
+}
+
+/**
+ * Initializes and runs the calculator GUI
  */
 int run_calculator(int argc, char *argv[]) {
     GtkWidget *window, *grid;
@@ -51,7 +67,7 @@ int run_calculator(int argc, char *argv[]) {
     // Create main window
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(window), "Calculator");
-    gtk_window_set_default_size(GTK_WINDOW(window), 250, 300);
+    gtk_window_set_default_size(GTK_WINDOW(window), 300, 350);
 
     g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
@@ -63,26 +79,35 @@ int run_calculator(int argc, char *argv[]) {
     entry = gtk_entry_new();
     gtk_grid_attach(GTK_GRID(grid), entry, 0, 0, 4, 1);
 
-    // Button labels
+    /**
+     * Button layout (row-wise)
+     */
     const char *buttons[] = {
-        "7","8","9","/",
-        "4","5","6","*",
-        "1","2","3","-",
-        "0","C","=","+"
+        "C", "B", "log", "/",
+        "7", "8", "9", "*",
+        "4", "5", "6", "-",
+        "1", "2", "3", "+",
+        "0", ".", "=", "P",
+        "R", "!"
     };
 
     int row = 1, col = 0;
 
-    for (int i = 0; i < 16; i++) {
-        GtkWidget *btn = gtk_button_new_with_label(buttons[i]);
+    for (int i = 0; i < 22; i++) {
+        GtkWidget *button = gtk_button_new_with_label(buttons[i]);
+        char message[30];
+        strcpy(message, "This is a button ");
+        gtk_widget_set_tooltip_text(button, strcat(message, buttons[i]));
 
         if (buttons[i][0] == 'C') {
-            g_signal_connect(btn, "clicked", G_CALLBACK(on_clear_clicked), NULL);
+            g_signal_connect(button, "clicked", G_CALLBACK(on_clear_clicked), NULL);
+        } else if (buttons[i][0] == 'B') {
+            g_signal_connect(button, "clicked", G_CALLBACK(on_backspace_clicked), NULL);
         } else {
-            g_signal_connect(btn, "clicked", G_CALLBACK(on_button_clicked), NULL);
+            g_signal_connect(button, "clicked", G_CALLBACK(on_button_clicked), NULL);
         }
 
-        gtk_grid_attach(GTK_GRID(grid), btn, col, row, 1, 1);
+        gtk_grid_attach(GTK_GRID(grid), button, col, row, 1, 1);
 
         col++;
         if (col == 4) {
@@ -98,7 +123,7 @@ int run_calculator(int argc, char *argv[]) {
 }
 
 /**
- * @brief Program entry point
+ * Program entry point
  */
 int main(int argc, char *argv[]) {
     return run_calculator(argc, argv);
