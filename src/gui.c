@@ -102,9 +102,9 @@ int run_calculator(int argc, char *argv[]) {
     // Create main window
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(window), "Calculator");
-    gtk_window_set_default_size(GTK_WINDOW(window), 300, 350);
+    gtk_window_set_default_size(GTK_WINDOW(window), 180, 200);
 
-        // Create grid layout
+    // Create grid layout
     grid = gtk_grid_new();
     gtk_container_add(GTK_CONTAINER(window), grid);
 
@@ -126,7 +126,7 @@ int run_calculator(int argc, char *argv[]) {
         "0", ".", "=", "^",
         "√", "!"
     };
-
+    //Tooltip strings with descrioptions of buttons
     const char *tooltips[] = {
     "Clear the display",
     "Delete the last character",
