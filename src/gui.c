@@ -128,33 +128,33 @@ int run_calculator(int argc, char *argv[]) {
     };
     //Tooltip strings with descrioptions of buttons
     const char *tooltips[] = {
-    "Clear the display",
-    "Delete the last character",
-    "Calculate base-10 logarithm: log(x)",
-    "Division operator: x/y",
+    "[C] Clear the display",
+    "[B] Delete the last character",
+    "[L] Calculate base-10 logarithm: log(x)",
+    "[/] Division operator: x/y",
 
-    "Digit 7",
-    "Digit 8",
-    "Digit 9",
-    "Multiplication operator: x*y",
+    "[7] Digit 7",
+    "[8] Digit 8",
+    "[9] Digit 9",
+    "[*] Multiplication operator: x*y",
 
-    "Digit 4",
-    "Digit 5",
-    "Digit 6",
-    "Subtraction operator: x-y",
+    "[4] Digit 4",
+    "[5] Digit 5",
+    "[6] Digit 6",
+    "[-] Subtraction operator: x-y",
 
-    "Digit 1",
-    "Digit 2",
-    "Digit 3",
-    "Addition operator: x+y",
+    "[1] Digit 1",
+    "[2] Digit 2",
+    "[3] Digit 3",
+    "[+] Addition operator: x+y",
 
-    "Digit 0",
-    "Decimal point",
-    "Evaluate the expression and display the result",
-    "Power function: x^y",
+    "[0] Digit 0",
+    "[.] Decimal point",
+    "[Enter] Evaluate the expression and display the result",
+    "[^] Power function: x^y",
 
-    "Square root function: y√x",
-    "Factorial: x!"
+    "[R] Square root function: y√x",
+    "[!] Factorial: x!"
 };
 
     int row = 1, col = 0;
