@@ -15,9 +15,10 @@
 #include "gui.h"
 #include <stdio.h>
 #include <string.h>
+#include <gdk/gdkkeysyms.h>
 
 /**
- * Global entry widget (defined here, declared in header)
+ * Global entry widget
  */
 GtkWidget *entry = NULL;
 
@@ -47,16 +48,61 @@ void on_clear_clicked(GtkWidget *widget, gpointer data) {
  * Deletes last character on the display
  */
 void on_backspace_clicked(GtkWidget *widget, gpointer data) {
-    const char *text = gtk_entry_get_text(GTK_ENTRY(entry));
-    int len = strlen(text);
+    const char *current_text = gtk_entry_get_text(GTK_ENTRY(entry));
+    int len = strlen(current_text);
 
     if (len > 0) {
         char new_text[256];
-        strncpy(new_text, text, len - 1);
+        strncpy(new_text, current_text, len - 1);
         new_text[len - 1] = '\0';
         gtk_entry_set_text(GTK_ENTRY(entry), new_text);
         gtk_editable_set_position(GTK_EDITABLE(entry), -1);
     }
+}
+
+gboolean on_key_press(GtkWidget *widget, GdkEventKey *event, gpointer data) {
+    gunichar c = gdk_keyval_to_unicode(event->keyval);
+
+    // Get current text
+    const char *current_text = gtk_entry_get_text(GTK_ENTRY(entry));
+    char new_text[256];
+
+    // Digits and operators
+    if (g_unichar_isdigit(c) || c == '+' || c == '-' || c == '*' || c == '/' || c == '.' || c == '!' || c == '^') {
+        snprintf(new_text, sizeof(new_text), "%s%c", current_text, (char)c);
+        gtk_entry_set_text(GTK_ENTRY(entry), new_text);
+    }
+    // Enter → equals
+    else if (event->keyval == GDK_KEY_Return || event->keyval == GDK_KEY_KP_Enter) {
+        //TODO: add parsing the expresion
+    }
+    // Backspace TODO: backspace could delete characters based on pointer in display
+    else if (event->keyval == GDK_KEY_BackSpace) {
+        int len = strlen(current_text);
+        if (len > 0) {
+            strncpy(new_text, current_text, len - 1);
+            new_text[len - 1] = '\0';
+            gtk_entry_set_text(GTK_ENTRY(entry), new_text);
+        }
+        return TRUE;
+    }
+    // Escape → clear
+    else if (c == 'c' || c == 'C') {
+        gtk_entry_set_text(GTK_ENTRY(entry), "");
+    }
+    // Square root (r or R)
+    else if (c == 'r' || c == 'R') {
+        snprintf(new_text, sizeof(new_text), "%s√", current_text);
+        gtk_entry_set_text(GTK_ENTRY(entry), new_text);
+    }
+    // log (l key)
+    else if (c == 'l' || c == 'L') {
+        snprintf(new_text, sizeof(new_text), "%slog", current_text);
+        gtk_entry_set_text(GTK_ENTRY(entry), new_text);
+    }
+
+    gtk_editable_set_position(GTK_EDITABLE(entry), -1);
+    return TRUE;
 }
 
 /**
@@ -71,6 +117,8 @@ int run_calculator(int argc, char *argv[]) {
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(window), "Calculator");
     gtk_window_set_default_size(GTK_WINDOW(window), 300, 350);
+
+    g_signal_connect(window, "key-press-event", G_CALLBACK(on_key_press), NULL);
 
     g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
