@@ -32,6 +32,7 @@ void on_button_clicked(GtkWidget *widget, gpointer data) {
     snprintf(new_text, sizeof(new_text), "%s%s", current_text, button_text);
 
     gtk_entry_set_text(GTK_ENTRY(entry), new_text);
+    gtk_editable_set_position(GTK_EDITABLE(entry), -1);
 }
 
 /**
@@ -39,6 +40,7 @@ void on_button_clicked(GtkWidget *widget, gpointer data) {
  */
 void on_clear_clicked(GtkWidget *widget, gpointer data) {
     gtk_entry_set_text(GTK_ENTRY(entry), "");
+    gtk_editable_set_position(GTK_EDITABLE(entry), -1);
 }
 
 /**
@@ -53,6 +55,7 @@ void on_backspace_clicked(GtkWidget *widget, gpointer data) {
         strncpy(new_text, text, len - 1);
         new_text[len - 1] = '\0';
         gtk_entry_set_text(GTK_ENTRY(entry), new_text);
+        gtk_editable_set_position(GTK_EDITABLE(entry), -1);
     }
 }
 
@@ -77,6 +80,7 @@ int run_calculator(int argc, char *argv[]) {
 
     // Create display entry
     entry = gtk_entry_new();
+    gtk_entry_set_alignment(GTK_ENTRY(entry), 1.0);
     gtk_grid_attach(GTK_GRID(grid), entry, 0, 0, 4, 1);
 
     /**
