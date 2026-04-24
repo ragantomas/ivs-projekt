@@ -13,98 +13,162 @@
  * @brief graphical user interface of the calculator app
  */
 #include "gui.h"
-#include <stdio.h>
-#include <string.h>
-
-/**
- * Global entry widget (defined here, declared in header)
- */
-GtkWidget *entry = NULL;
-
 /**
  * Handles button clicks (numbers and operators)
  */
-void on_button_clicked(GtkWidget *widget, gpointer data) {
-    const char *button_text = gtk_button_get_label(GTK_BUTTON(widget));
-    const char *current_text = gtk_entry_get_text(GTK_ENTRY(entry));
+void on_button_clicked(GtkWidget *button, GtkWidget *display) {
+    const char *button_text = gtk_button_get_label(GTK_BUTTON(button));
+    const char *current_text = gtk_entry_get_text(GTK_ENTRY(display));
 
     char new_text[256];
     snprintf(new_text, sizeof(new_text), "%s%s", current_text, button_text);
 
-    gtk_entry_set_text(GTK_ENTRY(entry), new_text);
+    gtk_entry_set_text(GTK_ENTRY(display), new_text);
+    gtk_editable_set_position(GTK_EDITABLE(display), -1);
 }
 
 /**
  * Clears the display
  */
-void on_clear_clicked(GtkWidget *widget, gpointer data) {
-    gtk_entry_set_text(GTK_ENTRY(entry), "");
+void on_clear_clicked(GtkWidget *button, GtkWidget *display) {
+    gtk_entry_set_text(GTK_ENTRY(display), "");
+    gtk_editable_set_position(GTK_EDITABLE(display), -1);
 }
 
 /**
  * Deletes last character on the display
  */
-void on_backspace_clicked(GtkWidget *widget, gpointer data) {
-    const char *text = gtk_entry_get_text(GTK_ENTRY(entry));
-    int len = strlen(text);
+void on_backspace_clicked(GtkWidget *button, GtkWidget *display) {
+    const char *current_text = gtk_entry_get_text(GTK_ENTRY(display));
+    int len = strlen(current_text);
 
     if (len > 0) {
         char new_text[256];
-        strncpy(new_text, text, len - 1);
+        strncpy(new_text, current_text, len - 1);
         new_text[len - 1] = '\0';
-        gtk_entry_set_text(GTK_ENTRY(entry), new_text);
+        gtk_entry_set_text(GTK_ENTRY(display), new_text);
+        gtk_editable_set_position(GTK_EDITABLE(display), -1);
     }
+}
+
+gboolean on_key_press(GtkWidget *window, GdkEventKey *event, GtkWidget *display) {
+    gunichar c = gdk_keyval_to_unicode(event->keyval);
+
+    // Get current text
+    const char *current_text = gtk_entry_get_text(GTK_ENTRY(display));
+    char new_text[256];
+
+    // Digits and operators
+    if (g_unichar_isdigit(c) || c == '+' || c == '-' || c == '*' || c == '/' || c == '.' || c == '!' || c == '^') {
+        snprintf(new_text, sizeof(new_text), "%s%c", current_text, (char)c);
+        gtk_entry_set_text(GTK_ENTRY(display), new_text);
+    }
+    // Enter → equals
+    else if (event->keyval == GDK_KEY_Return || event->keyval == GDK_KEY_KP_Enter) {
+        //TODO: add parsing the expresion
+    }
+    // Backspace TODO: backspace could delete characters based on pointer in display
+    else if (event->keyval == GDK_KEY_BackSpace) {
+        on_backspace_clicked(NULL, display);
+        return TRUE;
+    }
+    // clear (c or C)
+    else if (c == 'c' || c == 'C') {
+        gtk_entry_set_text(GTK_ENTRY(display), "");
+    }
+    // Square root (r or R)
+    else if (c == 'r' || c == 'R') {
+        snprintf(new_text, sizeof(new_text), "%s√", current_text);
+        gtk_entry_set_text(GTK_ENTRY(display), new_text);
+    }
+    // log (l key)
+    else if (c == 'l' || c == 'L') {
+        snprintf(new_text, sizeof(new_text), "%slog", current_text);
+        gtk_entry_set_text(GTK_ENTRY(display), new_text);
+    }
+
+    gtk_editable_set_position(GTK_EDITABLE(display), -1);
+    return TRUE;
 }
 
 /**
  * Initializes and runs the calculator GUI
  */
 int run_calculator(int argc, char *argv[]) {
-    GtkWidget *window, *grid;
+    GtkWidget *window, *grid, *display;
 
     gtk_init(&argc, &argv);
 
     // Create main window
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(window), "Calculator");
-    gtk_window_set_default_size(GTK_WINDOW(window), 300, 350);
-
-    g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+    gtk_window_set_default_size(GTK_WINDOW(window), 180, 200);
 
     // Create grid layout
     grid = gtk_grid_new();
     gtk_container_add(GTK_CONTAINER(window), grid);
 
     // Create display entry
-    entry = gtk_entry_new();
-    gtk_grid_attach(GTK_GRID(grid), entry, 0, 0, 4, 1);
+    display = gtk_entry_new();
+    gtk_entry_set_alignment(GTK_ENTRY(display), 1.0);
+    gtk_grid_attach(GTK_GRID(grid), display, 0, 0, 4, 1);
 
-    /**
-     * Button layout (row-wise)
-     */
+    // Create event handlers
+    g_signal_connect(window, "key-press-event", G_CALLBACK(on_key_press), display);
+    g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+
+    //Button layout
     const char *buttons[] = {
         "C", "B", "log", "/",
         "7", "8", "9", "*",
         "4", "5", "6", "-",
         "1", "2", "3", "+",
-        "0", ".", "=", "P",
-        "R", "!"
+        "0", ".", "=", "^",
+        "√", "!"
     };
+    //Tooltip strings with descrioptions of buttons
+    const char *tooltips[] = {
+    "[C] Clear the display",
+    "[B] Delete the last character",
+    "[L] Calculate base-10 logarithm: log(x)",
+    "[/] Division operator: x/y",
+
+    "[7] Digit 7",
+    "[8] Digit 8",
+    "[9] Digit 9",
+    "[*] Multiplication operator: x*y",
+
+    "[4] Digit 4",
+    "[5] Digit 5",
+    "[6] Digit 6",
+    "[-] Subtraction operator: x-y",
+
+    "[1] Digit 1",
+    "[2] Digit 2",
+    "[3] Digit 3",
+    "[+] Addition operator: x+y",
+
+    "[0] Digit 0",
+    "[.] Decimal point",
+    "[Enter] Evaluate the expression and display the result",
+    "[^] Power function: x^y",
+
+    "[R] Square root function: y√x",
+    "[!] Factorial: x!"
+};
 
     int row = 1, col = 0;
 
     for (int i = 0; i < 22; i++) {
         GtkWidget *button = gtk_button_new_with_label(buttons[i]);
-        char message[30];
-        strcpy(message, "This is a button ");
-        gtk_widget_set_tooltip_text(button, strcat(message, buttons[i]));
+        gtk_widget_set_tooltip_text(button, tooltips[i]);
 
         if (buttons[i][0] == 'C') {
-            g_signal_connect(button, "clicked", G_CALLBACK(on_clear_clicked), NULL);
+            g_signal_connect(button, "clicked", G_CALLBACK(on_clear_clicked), display);
         } else if (buttons[i][0] == 'B') {
-            g_signal_connect(button, "clicked", G_CALLBACK(on_backspace_clicked), NULL);
+            g_signal_connect(button, "clicked", G_CALLBACK(on_backspace_clicked), display);
         } else {
-            g_signal_connect(button, "clicked", G_CALLBACK(on_button_clicked), NULL);
+            g_signal_connect(button, "clicked", G_CALLBACK(on_button_clicked), display);
         }
 
         gtk_grid_attach(GTK_GRID(grid), button, col, row, 1, 1);

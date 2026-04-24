@@ -1,10 +1,10 @@
-//======= Copyright (c) 2026, FIT VUT Brno, All rights reserved. ============//
+//======= Copyright (c) 2026, FIT VUT Brno, GNU GPL V3.0 ============//
 //
 // Purpose:     calculator GUI
 //
 // $NoKeywords: $ivs_project_2 $gui.h
 // $Authors:    Daniel Kratky <xkratkd00@stud.fit.vut.cz>
-// $Date:       $2026-04-22
+// $Date:       $2026-04-23
 //============================================================================//
 #ifndef GUI_H
 #define GUI_H
@@ -20,44 +20,59 @@
  * graphical user interface (GUI) with buttons and a display field
  */
 
+#include <stdio.h>
+#include <string.h>
+#include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
-
-/**
- * @brief Global pointer to the calculator display entry widget
- *
- * This widget is used to display user input and results.
- */
-extern GtkWidget *entry;
 
 /**
  * @brief Handles button clicks (numbers and operators)
  *
  * Appends the pressed button's label to the display.
  *
- * @param widget Pointer to the button widget
- * @param data Optional user data (unused)
+ * @param button Pointer to the button widget
+ * @param display Pointer to the display entry
+ * both parameters are necessary to folow the gtk conventions and work with other functions
+ * they can accept null pointers if unused
  */
-void on_button_clicked(GtkWidget *widget, gpointer data);
+void on_button_clicked(GtkWidget *button, GtkWidget *display);
 
 /**
  * @brief Clears the display
  *
  * Sets the display text to an empty string.
  *
- * @param widget Pointer to the button widget
- * @param data Optional user data (unused)
+ * @param button Pointer to the button widget
+ * @param display Pointer to the display entry
+ * both parameters are necessary to folow the gtk conventions and work with other functions
+ * they can accept null pointers if unused
  */
-void on_clear_clicked(GtkWidget *widget, gpointer data);
+void on_clear_clicked(GtkWidget *button, GtkWidget *display);
 
 /**
  * @brief Deletes the last character from the display
  *
  * Removes the last character in the entry field if it exists.
  *
- * @param widget Pointer to the button widget
- * @param data Optional user data (unused)
+ * @param button Pointer to the button widget
+ * @param display Pointer to the display entry
+ * both parameters are necessary to folow the gtk conventions and work with other functions
+ * they can accept null pointers if unused
  */
-void on_backspace_clicked(GtkWidget *widget, gpointer data);
+void on_backspace_clicked(GtkWidget *button, GtkWidget *display);
+
+/**
+ * @brief Deletes the last character from the display
+ *
+ * Removes the last character in the entry field if it exists.
+ *
+ * @param window Pointer to the window widget
+ * @param event Pointer to the event that triggered the signal
+ * @param display Pointer to the display entry
+ * all three parameters are necessary to folow the gtk conventions and work with other functions
+ * they can accept null pointers if unused
+ */
+gboolean on_key_press(GtkWidget *window, GdkEventKey *event, GtkWidget *display);
 
 /**
  * @brief Initializes and runs the calculator GUI
