@@ -16,52 +16,52 @@
 /**
  * Handles button clicks (numbers and operators)
  */
-void on_button_clicked(GtkWidget *button, GtkWidget *entry) {
+void on_button_clicked(GtkWidget *button, GtkWidget *display) {
     const char *button_text = gtk_button_get_label(GTK_BUTTON(button));
-    const char *current_text = gtk_entry_get_text(GTK_ENTRY(entry));
+    const char *current_text = gtk_entry_get_text(GTK_ENTRY(display));
 
     char new_text[256];
     snprintf(new_text, sizeof(new_text), "%s%s", current_text, button_text);
 
-    gtk_entry_set_text(GTK_ENTRY(entry), new_text);
-    gtk_editable_set_position(GTK_EDITABLE(entry), -1);
+    gtk_entry_set_text(GTK_ENTRY(display), new_text);
+    gtk_editable_set_position(GTK_EDITABLE(display), -1);
 }
 
 /**
  * Clears the display
  */
-void on_clear_clicked(GtkWidget *button, GtkWidget *entry) {
-    gtk_entry_set_text(GTK_ENTRY(entry), "");
-    gtk_editable_set_position(GTK_EDITABLE(entry), -1);
+void on_clear_clicked(GtkWidget *button, GtkWidget *display) {
+    gtk_entry_set_text(GTK_ENTRY(display), "");
+    gtk_editable_set_position(GTK_EDITABLE(display), -1);
 }
 
 /**
  * Deletes last character on the display
  */
-void on_backspace_clicked(GtkWidget *button, GtkWidget *entry) {
-    const char *current_text = gtk_entry_get_text(GTK_ENTRY(entry));
+void on_backspace_clicked(GtkWidget *button, GtkWidget *display) {
+    const char *current_text = gtk_entry_get_text(GTK_ENTRY(display));
     int len = strlen(current_text);
 
     if (len > 0) {
         char new_text[256];
         strncpy(new_text, current_text, len - 1);
         new_text[len - 1] = '\0';
-        gtk_entry_set_text(GTK_ENTRY(entry), new_text);
-        gtk_editable_set_position(GTK_EDITABLE(entry), -1);
+        gtk_entry_set_text(GTK_ENTRY(display), new_text);
+        gtk_editable_set_position(GTK_EDITABLE(display), -1);
     }
 }
 
-gboolean on_key_press(GtkWidget *window, GdkEventKey *event, GtkWidget *entry) {
+gboolean on_key_press(GtkWidget *window, GdkEventKey *event, GtkWidget *display) {
     gunichar c = gdk_keyval_to_unicode(event->keyval);
 
     // Get current text
-    const char *current_text = gtk_entry_get_text(GTK_ENTRY(entry));
+    const char *current_text = gtk_entry_get_text(GTK_ENTRY(display));
     char new_text[256];
 
     // Digits and operators
     if (g_unichar_isdigit(c) || c == '+' || c == '-' || c == '*' || c == '/' || c == '.' || c == '!' || c == '^') {
         snprintf(new_text, sizeof(new_text), "%s%c", current_text, (char)c);
-        gtk_entry_set_text(GTK_ENTRY(entry), new_text);
+        gtk_entry_set_text(GTK_ENTRY(display), new_text);
     }
     // Enter → equals
     else if (event->keyval == GDK_KEY_Return || event->keyval == GDK_KEY_KP_Enter) {
@@ -69,25 +69,25 @@ gboolean on_key_press(GtkWidget *window, GdkEventKey *event, GtkWidget *entry) {
     }
     // Backspace TODO: backspace could delete characters based on pointer in display
     else if (event->keyval == GDK_KEY_BackSpace) {
-        on_backspace_clicked(NULL, entry);
+        on_backspace_clicked(NULL, display);
         return TRUE;
     }
     // clear (c or C)
     else if (c == 'c' || c == 'C') {
-        gtk_entry_set_text(GTK_ENTRY(entry), "");
+        gtk_entry_set_text(GTK_ENTRY(display), "");
     }
     // Square root (r or R)
     else if (c == 'r' || c == 'R') {
         snprintf(new_text, sizeof(new_text), "%s√", current_text);
-        gtk_entry_set_text(GTK_ENTRY(entry), new_text);
+        gtk_entry_set_text(GTK_ENTRY(display), new_text);
     }
     // log (l key)
     else if (c == 'l' || c == 'L') {
         snprintf(new_text, sizeof(new_text), "%slog", current_text);
-        gtk_entry_set_text(GTK_ENTRY(entry), new_text);
+        gtk_entry_set_text(GTK_ENTRY(display), new_text);
     }
 
-    gtk_editable_set_position(GTK_EDITABLE(entry), -1);
+    gtk_editable_set_position(GTK_EDITABLE(display), -1);
     return TRUE;
 }
 
@@ -95,7 +95,7 @@ gboolean on_key_press(GtkWidget *window, GdkEventKey *event, GtkWidget *entry) {
  * Initializes and runs the calculator GUI
  */
 int run_calculator(int argc, char *argv[]) {
-    GtkWidget *window, *grid, *entry;
+    GtkWidget *window, *grid, *display;
 
     gtk_init(&argc, &argv);
 
@@ -109,12 +109,12 @@ int run_calculator(int argc, char *argv[]) {
     gtk_container_add(GTK_CONTAINER(window), grid);
 
     // Create display entry
-    entry = gtk_entry_new();
-    gtk_entry_set_alignment(GTK_ENTRY(entry), 1.0);
-    gtk_grid_attach(GTK_GRID(grid), entry, 0, 0, 4, 1);
+    display = gtk_entry_new();
+    gtk_entry_set_alignment(GTK_ENTRY(display), 1.0);
+    gtk_grid_attach(GTK_GRID(grid), display, 0, 0, 4, 1);
 
     // Create event handlers
-    g_signal_connect(window, "key-press-event", G_CALLBACK(on_key_press), entry);
+    g_signal_connect(window, "key-press-event", G_CALLBACK(on_key_press), display);
     g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
     //Button layout
@@ -164,11 +164,11 @@ int run_calculator(int argc, char *argv[]) {
         gtk_widget_set_tooltip_text(button, tooltips[i]);
 
         if (buttons[i][0] == 'C') {
-            g_signal_connect(button, "clicked", G_CALLBACK(on_clear_clicked), entry);
+            g_signal_connect(button, "clicked", G_CALLBACK(on_clear_clicked), display);
         } else if (buttons[i][0] == 'B') {
-            g_signal_connect(button, "clicked", G_CALLBACK(on_backspace_clicked), entry);
+            g_signal_connect(button, "clicked", G_CALLBACK(on_backspace_clicked), display);
         } else {
-            g_signal_connect(button, "clicked", G_CALLBACK(on_button_clicked), entry);
+            g_signal_connect(button, "clicked", G_CALLBACK(on_button_clicked), display);
         }
 
         gtk_grid_attach(GTK_GRID(grid), button, col, row, 1, 1);
