@@ -13,20 +13,11 @@
  * @brief graphical user interface of the calculator app
  */
 #include "gui.h"
-#include <stdio.h>
-#include <string.h>
-#include <gdk/gdkkeysyms.h>
-
-/**
- * Global entry widget
- */
-GtkWidget *entry = NULL;
-
 /**
  * Handles button clicks (numbers and operators)
  */
-void on_button_clicked(GtkWidget *widget, gpointer data) {
-    const char *button_text = gtk_button_get_label(GTK_BUTTON(widget));
+void on_button_clicked(GtkWidget *button, GtkWidget *entry) {
+    const char *button_text = gtk_button_get_label(GTK_BUTTON(button));
     const char *current_text = gtk_entry_get_text(GTK_ENTRY(entry));
 
     char new_text[256];
@@ -39,7 +30,7 @@ void on_button_clicked(GtkWidget *widget, gpointer data) {
 /**
  * Clears the display
  */
-void on_clear_clicked(GtkWidget *widget, gpointer data) {
+void on_clear_clicked(GtkWidget *button, GtkWidget *entry) {
     gtk_entry_set_text(GTK_ENTRY(entry), "");
     gtk_editable_set_position(GTK_EDITABLE(entry), -1);
 }
@@ -47,7 +38,7 @@ void on_clear_clicked(GtkWidget *widget, gpointer data) {
 /**
  * Deletes last character on the display
  */
-void on_backspace_clicked(GtkWidget *widget, gpointer data) {
+void on_backspace_clicked(GtkWidget *button, GtkWidget *entry) {
     const char *current_text = gtk_entry_get_text(GTK_ENTRY(entry));
     int len = strlen(current_text);
 
@@ -60,7 +51,7 @@ void on_backspace_clicked(GtkWidget *widget, gpointer data) {
     }
 }
 
-gboolean on_key_press(GtkWidget *widget, GdkEventKey *event, gpointer data) {
+gboolean on_key_press(GtkWidget *window, GdkEventKey *event, GtkWidget *entry) {
     gunichar c = gdk_keyval_to_unicode(event->keyval);
 
     // Get current text
@@ -78,15 +69,10 @@ gboolean on_key_press(GtkWidget *widget, GdkEventKey *event, gpointer data) {
     }
     // Backspace TODO: backspace could delete characters based on pointer in display
     else if (event->keyval == GDK_KEY_BackSpace) {
-        int len = strlen(current_text);
-        if (len > 0) {
-            strncpy(new_text, current_text, len - 1);
-            new_text[len - 1] = '\0';
-            gtk_entry_set_text(GTK_ENTRY(entry), new_text);
-        }
+        on_backspace_clicked(NULL, entry);
         return TRUE;
     }
-    // Escape → clear
+    // clear (c or C)
     else if (c == 'c' || c == 'C') {
         gtk_entry_set_text(GTK_ENTRY(entry), "");
     }
@@ -109,7 +95,7 @@ gboolean on_key_press(GtkWidget *widget, GdkEventKey *event, gpointer data) {
  * Initializes and runs the calculator GUI
  */
 int run_calculator(int argc, char *argv[]) {
-    GtkWidget *window, *grid;
+    GtkWidget *window, *grid, *entry;
 
     gtk_init(&argc, &argv);
 
@@ -118,11 +104,7 @@ int run_calculator(int argc, char *argv[]) {
     gtk_window_set_title(GTK_WINDOW(window), "Calculator");
     gtk_window_set_default_size(GTK_WINDOW(window), 300, 350);
 
-    g_signal_connect(window, "key-press-event", G_CALLBACK(on_key_press), NULL);
-
-    g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
-
-    // Create grid layout
+        // Create grid layout
     grid = gtk_grid_new();
     gtk_container_add(GTK_CONTAINER(window), grid);
 
@@ -131,9 +113,11 @@ int run_calculator(int argc, char *argv[]) {
     gtk_entry_set_alignment(GTK_ENTRY(entry), 1.0);
     gtk_grid_attach(GTK_GRID(grid), entry, 0, 0, 4, 1);
 
-    /**
-     * Button layout (row-wise)
-     */
+    // Create event handlers
+    g_signal_connect(window, "key-press-event", G_CALLBACK(on_key_press), entry);
+    g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+
+    //Button layout
     const char *buttons[] = {
         "C", "B", "log", "/",
         "7", "8", "9", "*",
@@ -180,11 +164,11 @@ int run_calculator(int argc, char *argv[]) {
         gtk_widget_set_tooltip_text(button, tooltips[i]);
 
         if (buttons[i][0] == 'C') {
-            g_signal_connect(button, "clicked", G_CALLBACK(on_clear_clicked), NULL);
+            g_signal_connect(button, "clicked", G_CALLBACK(on_clear_clicked), entry);
         } else if (buttons[i][0] == 'B') {
-            g_signal_connect(button, "clicked", G_CALLBACK(on_backspace_clicked), NULL);
+            g_signal_connect(button, "clicked", G_CALLBACK(on_backspace_clicked), entry);
         } else {
-            g_signal_connect(button, "clicked", G_CALLBACK(on_button_clicked), NULL);
+            g_signal_connect(button, "clicked", G_CALLBACK(on_button_clicked), entry);
         }
 
         gtk_grid_attach(GTK_GRID(grid), button, col, row, 1, 1);
