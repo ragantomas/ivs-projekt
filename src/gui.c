@@ -87,17 +87,45 @@ int run_calculator(int argc, char *argv[]) {
         "7", "8", "9", "*",
         "4", "5", "6", "-",
         "1", "2", "3", "+",
-        "0", ".", "=", "P",
-        "R", "!"
+        "0", ".", "=", "^",
+        "√", "!"
     };
+
+    const char *tooltips[] = {
+    "Clear the display",
+    "Delete the last character",
+    "Calculate base-10 logarithm: log(x)",
+    "Division operator: x/y",
+
+    "Digit 7",
+    "Digit 8",
+    "Digit 9",
+    "Multiplication operator: x*y",
+
+    "Digit 4",
+    "Digit 5",
+    "Digit 6",
+    "Subtraction operator: x-y",
+
+    "Digit 1",
+    "Digit 2",
+    "Digit 3",
+    "Addition operator: x+y",
+
+    "Digit 0",
+    "Decimal point",
+    "Evaluate the expression and display the result",
+    "Power function: x^y",
+
+    "Square root function: y√x",
+    "Factorial: x!"
+};
 
     int row = 1, col = 0;
 
     for (int i = 0; i < 22; i++) {
         GtkWidget *button = gtk_button_new_with_label(buttons[i]);
-        char message[30];
-        strcpy(message, "This is a button ");
-        gtk_widget_set_tooltip_text(button, strcat(message, buttons[i]));
+        gtk_widget_set_tooltip_text(button, tooltips[i]);
 
         if (buttons[i][0] == 'C') {
             g_signal_connect(button, "clicked", G_CALLBACK(on_clear_clicked), NULL);
