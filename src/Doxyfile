@@ -1,5 +1,8 @@
-INPUT                  = src
+INPUT                  = .
 FILE_PATTERNS          = *.c *.h
+EXTRACT_ALL            = YES
+EXTRACT_STATIC         = YES
+OPTIMIZE_OUTPUT_FOR_C  = YES
 RECURSIVE              = YES
 OUTPUT_DIRECTORY       = ../doxygen_output
 GENERATE_LATEX         = YES
