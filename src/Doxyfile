@@ -1,0 +1,11 @@
+PROJECT_NAME           = "Môj C Projekt"
+PROJECT_NUMBER         = 1.0
+OUTPUT_DIRECTORY       = docs
+INPUT                  = src
+FILE_PATTERNS          = *.c *.h
+RECURSIVE              = YES
+OPTIMIZE_OUTPUT_FOR_C  = YES
+EXTRACT_ALL            = YES
+EXTRACT_STATIC         = YES
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
