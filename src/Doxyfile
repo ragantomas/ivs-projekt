@@ -1,7 +1,7 @@
 INPUT                  = src
 FILE_PATTERNS          = *.c *.h
 RECURSIVE              = YES
-OUTPUT_DIRECTORY       = ../
+OUTPUT_DIRECTORY       = ../doxygen_output
 GENERATE_LATEX         = YES
 USE_PDFLATEX           = YES
 LATEX_BATCHMODE        = YES
