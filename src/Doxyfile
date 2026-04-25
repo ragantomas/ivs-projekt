@@ -1,3 +1,4 @@
+PROJECT_NAME           = "IVS Projekt- Kalkulačka"
 INPUT                  = .
 FILE_PATTERNS          = *.c *.h
 EXTRACT_ALL            = YES
