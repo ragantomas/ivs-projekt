@@ -17,47 +17,73 @@
 #include <string.h>
 #include <stdlib.h>
 
-double parse_factorial(char *equation, unsigned int lenght, unsigned int *error) {
+
+double parse_factorial(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
     for (unsigned int character = 0; character < lenght; character++) {
         if (equation[character] == '!') {
+            *parsed = true;
             char *equation_r = equation + character + 1;
             unsigned int lenght_r = lenght - character - 1;
             if (lenght_r == 0) {
                 *error = 3;
                 return 0;
             }
-            double num = parse_equation(equation_r, lenght_r, 0, error);
+            double num_r = parse_equation(equation_r, lenght_r, 0, error);
             if(*error) {
                 return 0;
             }
-            return 1.0 + num;
-            //factorial(parse_equation(equation_r, lenght_r, 0, error));
+            // TODO: change for factorial(num_r, error); once implemented
+            return 1.0 + num_r;
+
         }
     }
+    *parsed = false;
+    return 0;
 }
 
-double parse_equation(char *equation, unsigned int lenght,
-                     unsigned int depth, unsigned int *error) {
-    const char *operations[] = {"!","^","√","log","*","/","-","+"};
+double parse_power(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+    for (unsigned int character = 0; character < lenght; character++) {
+        if (equation[character] == '^') {
+            *parsed = true;
+            char *equation_r = equation + character + 1;
+            char *equation_l = equation;
+            unsigned int lenght_r = lenght - character - 1;
+            unsigned int lenght_l = character;
+            if (lenght_r == 0 || lenght_l == 0) {
+                *error = 3;
+                return 0;
+            }
+            double num_r = parse_equation(equation_r, lenght_r, 1, error);
+            if(*error) {
+                return 0;
+            }
+            double num_l = parse_equation(equation_l, lenght_l, 2, error);
+            if(*error) {
+                return 0;
+            }
+            // TODO: change for power(num_l, num_r, error); once implemented
+            return 1.0 + num_r;
+        }
+    }
+    *parsed = false;
+    return 0;
+}
+
+double parse_equation(char *equation, unsigned int lenght, unsigned int depth, unsigned int *error) {
+    //"!","^","√","log","*","/","-","+"
+    bool parsed;
+    double value;
     switch(depth) {
         case 0:
-            return parse_factorial(equation, lenght, error);
+            value = parse_factorial(equation, lenght, error, &parsed);
+            if (parsed) {
+                return value;
+            }
         case 1:
-            /*for (unsigned int character = 0; character < lenght; character++) {
-                if (equation[character] == '^') {
-                    char *new_equation = equation + character + 1;
-                    unsigned int lenght_r = lenght - character - 1;
-                    if (lenght_r == 0) {
-                        *error = 3;
-                        return 0;
-                    }
-                    double num_r = parse_equation(new_equation, lenght_r, 0, error);
-                    if(error) {
-                        return 0;
-                    }
-                    return 1.0 + num_r;
-                }
-            }*/
+            value = parse_power(equation, lenght, error, &parsed);
+            if (parsed) {
+                return value;
+            }
         case 2:
         case 3:
         case 4:
@@ -72,9 +98,11 @@ double parse_equation(char *equation, unsigned int lenght,
 double parse_number(char *number, unsigned int lenght, unsigned int *error) {
     int decimal_points = 0;
     for (unsigned int character = 0; character < lenght; character++) {
+        // Catch multiple decimals in one number
         if (number[character] == '.') {
             decimal_points++;
         }
+        // Catch nonstandard characters
         if (!(number[character] == '.' ||
               number[character] == '0' ||
               number[character] == '1' ||
