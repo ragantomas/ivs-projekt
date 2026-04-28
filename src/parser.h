@@ -4,8 +4,10 @@
 //
 // $NoKeywords: $ivs_project_2 $parser.h
 // $Authors:    Daniel Kratky <xkratkd00@stud.fit.vut.cz>
-// $Date:       $2026-04-27
+// $Date:       $2026-04-28
 //============================================================================//
+#ifndef PARSER_H
+#define PARSER_H
 /**
  * @file parser.h
  * @author Daniel Kratky
@@ -15,7 +17,103 @@
  * This file declares function prototypes for functions that handle user input
  */
 
-double parse_factorial(char *equation, unsigned int lenght, unsigned int *error);
+#include <stdbool.h>
+
+/**
+ * @brief searches the string equation for factorials and evaluates them
+ *
+ * @param equation Pointer to the string containing the equation
+ * @param lenght Lenght of the string containing the equation
+ * @param error Pointer to error code (0 if no error occurred)
+ * @param parsed Pointer bool set to true if the function parsed anythng, false otherwise
+ *
+ * @return value of the equation
+ */
+double parse_factorial(char *equation, unsigned int lenght, unsigned int *error, bool *parsed);
+
+/**
+ * @brief searches the string equation for powers and evaluates them
+ *
+ * @param equation Pointer to the string containing the equation
+ * @param lenght Lenght of the string containing the equation
+ * @param error Pointer to error code (0 if no error occurred)
+ * @param parsed Pointer bool set to true if the function parsed anythng, false otherwise
+ *
+ * @return value of the equation
+ */
+double parse_power(char *equation, unsigned int lenght, unsigned int *error, bool *parsed);
+
+/**
+ * @brief searches the string equation for roots and evaluates them
+ *
+ * @param equation Pointer to the string containing the equation
+ * @param lenght Lenght of the string containing the equation
+ * @param error Pointer to error code (0 if no error occurred)
+ * @param parsed Pointer bool set to true if the function parsed anythng, false otherwise
+ *
+ * @return value of the equation
+ */
+double parse_root(char *equation, unsigned int lenght, unsigned int *error, bool *parsed);
+
+/**
+ * @brief searches the string equation for logarithms and evaluates them
+ *
+ * @param equation Pointer to the string containing the equation
+ * @param lenght Lenght of the string containing the equation
+ * @param error Pointer to error code (0 if no error occurred)
+ * @param parsed Pointer bool set to true if the function parsed anythng, false otherwise
+ *
+ * @return value of the equation
+ */
+double parse_log(char *equation, unsigned int lenght, unsigned int *error, bool *parsed);
+
+/**
+ * @brief searches the string equation for multiplications and evaluates them
+ *
+ * @param equation Pointer to the string containing the equation
+ * @param lenght Lenght of the string containing the equation
+ * @param error Pointer to error code (0 if no error occurred)
+ * @param parsed Pointer bool set to true if the function parsed anythng, false otherwise
+ *
+ * @return value of the equation
+ */
+double parse_mul(char *equation, unsigned int lenght, unsigned int *error, bool *parsed);
+
+/**
+ * @brief searches the string equation for divisions and evaluates them
+ *
+ * @param equation Pointer to the string containing the equation
+ * @param lenght Lenght of the string containing the equation
+ * @param error Pointer to error code (0 if no error occurred)
+ * @param parsed Pointer bool set to true if the function parsed anythng, false otherwise
+ *
+ * @return value of the equation
+ */
+double parse_div(char *equation, unsigned int lenght, unsigned int *error, bool *parsed);
+
+/**
+ * @brief searches the string equation for additions and evaluates them
+ *
+ * @param equation Pointer to the string containing the equation
+ * @param lenght Lenght of the string containing the equation
+ * @param error Pointer to error code (0 if no error occurred)
+ * @param parsed Pointer bool set to true if the function parsed anythng, false otherwise
+ *
+ * @return value of the equation
+ */
+double parse_add(char *equation, unsigned int lenght, unsigned int *error, bool *parsed);
+
+/**
+ * @brief searches the string equation for subtractions and evaluates them
+ *
+ * @param equation Pointer to the string containing the equation
+ * @param lenght Lenght of the string containing the equation
+ * @param error Pointer to error code (0 if no error occurred)
+ * @param parsed Pointer bool set to true if the function parsed anythng, false otherwise
+ *
+ * @return value of the equation
+ */
+double parse_sub(char *equation, unsigned int lenght, unsigned int *error, bool *parsed);
 
 /**
  * @brief parses a string into a mathematical equation and returns its value
@@ -27,7 +125,6 @@ double parse_factorial(char *equation, unsigned int lenght, unsigned int *error)
  *
  * @return value of the equation
  */
-
 double parse_equation(char *equation, unsigned int lenght, unsigned int depth, unsigned int *error);
 
 /**
@@ -40,5 +137,5 @@ double parse_equation(char *equation, unsigned int lenght, unsigned int depth, u
  *
  * @return decimal value of the number
  */
-
 double parse_number(char *number, unsigned int lenght, unsigned int *error);
+#endif // PARSER_H
