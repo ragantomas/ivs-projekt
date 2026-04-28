@@ -22,18 +22,16 @@ double parse_factorial(char *equation, unsigned int lenght, unsigned int *error,
     for (unsigned int character = 0; character < lenght; character++) {
         if (equation[character] == '!') {
             *parsed = true;
-            char *equation_r = equation + character + 1;
-            unsigned int lenght_r = lenght - character - 1;
-            if (lenght_r == 0) {
+            if (character == 0) {
                 *error = 3;
                 return 0;
             }
-            double num_r = parse_equation(equation_r, lenght_r, 0, error);
+            double num_l = parse_equation(equation, character, 0, error);
             if(*error) {
                 return 0;
             }
             // TODO: change for factorial(num_r, error); once implemented
-            return 1.0 + num_r;
+            return 1.0 + num_l;
 
         }
     }
@@ -195,7 +193,7 @@ int main(int argc, char *argv[]) {
     printf("%f Error: %i \n", num3, error3);
     printf("%f Error: %i \n", num4, error4);*/
     unsigned int error1 = 0;
-    char *equation1 = "!3^2";
+    char *equation1 = "3^2!";
     double num1 = parse_equation(equation1, 4, 0, &error1);
     printf("%f Error: %i \n", num1, error1);
     return 0;
