@@ -4,7 +4,7 @@
 //
 // $NoKeywords: $ivs_project_2 $parser.c
 // $Authors:    Daniel Kratky <xkratkd00@stud.fit.vut.cz>
-// $Date:       $2026-04-27
+// $Date:       $2026-04-28
 //============================================================================//
 /**
  * @file parser.c
@@ -62,7 +62,35 @@ double parse_power(char *equation, unsigned int lenght, unsigned int *error, boo
                 return 0;
             }
             // TODO: change for power(num_l, num_r, error); once implemented
-            return 1.0 + num_r;
+            return 1.0 + num_r + num_l;
+        }
+    }
+    *parsed = false;
+    return 0;
+}
+
+double parse_root(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+    for (unsigned int character = 0; character < lenght; character++) {
+        if (equation[character] == '√') {
+            *parsed = true;
+            char *equation_r = equation + character + 1;
+            char *equation_l = equation;
+            unsigned int lenght_r = lenght - character - 1;
+            unsigned int lenght_l = character;
+            if (lenght_r == 0 || lenght_l == 0) {
+                *error = 3;
+                return 0;
+            }
+            double num_r = parse_equation(equation_r, lenght_r, 2, error);
+            if(*error) {
+                return 0;
+            }
+            double num_l = parse_equation(equation_l, lenght_l, 3, error);
+            if(*error) {
+                return 0;
+            }
+            // TODO: change for root(num_l, num_r, error); once implemented
+            return 1.0 + num_r + num_l;
         }
     }
     *parsed = false;
@@ -85,6 +113,10 @@ double parse_equation(char *equation, unsigned int lenght, unsigned int depth, u
                 return value;
             }
         case 2:
+            value = 0; //parse_root(equation, lenght, error, &parsed);
+            if (parsed) {
+                return value;
+            }
         case 3:
         case 4:
         case 5:
@@ -144,8 +176,8 @@ int main(int argc, char *argv[]) {
     printf("%f Error: %i \n", num3, error3);
     printf("%f Error: %i \n", num4, error4);*/
     unsigned int error1 = 0;
-    char *equation1 = "!!3";
-    double num1 = parse_equation(equation1, 3, 0, &error1);
+    char *equation1 = "!3^2";
+    double num1 = parse_equation(equation1, 4, 0, &error1);
     printf("%f Error: %i \n", num1, error1);
     return 0;
 }
