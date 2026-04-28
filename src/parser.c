@@ -71,13 +71,11 @@ double parse_power(char *equation, unsigned int lenght, unsigned int *error, boo
 
 double parse_root(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
     for (unsigned int character = 0; character < lenght; character++) {
-        if (equation[character] == '√') {
+        if (equation[character] == 'r') { //TODO: this wil need fixing in gui
             *parsed = true;
             char *equation_r = equation + character + 1;
-            char *equation_l = equation;
             unsigned int lenght_r = lenght - character - 1;
-            unsigned int lenght_l = character;
-            if (lenght_r == 0 || lenght_l == 0) {
+            if (lenght_r == 0) {
                 *error = 3;
                 return 0;
             }
@@ -85,12 +83,33 @@ double parse_root(char *equation, unsigned int lenght, unsigned int *error, bool
             if(*error) {
                 return 0;
             }
-            double num_l = parse_equation(equation_l, lenght_l, 3, error);
+            // TODO: change for root(num_r, error); once implemented
+            return 1.0 + num_r;
+        }
+    }
+    *parsed = false;
+    return 0;
+}
+double parse_log(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+    for (unsigned int character = 0; character < lenght; character++) {
+        if (equation[character] == 'l') {
+            *parsed = true;
+            if (character >= lenght - 2 || equation[character + 1] != 'o' || equation[character + 2] != 'g') {
+                *error = 99; // TODO: we ight be able to remove this
+                return 0;
+            }
+            char *equation_r = equation + character + 3;
+            unsigned int lenght_r = lenght - character - 3;
+            if (lenght_r == 0) {
+                *error = 3;
+                return 0;
+            }
+            double num_r = parse_equation(equation_r, lenght_r, 3, error);
             if(*error) {
                 return 0;
             }
-            // TODO: change for root(num_l, num_r, error); once implemented
-            return 1.0 + num_r + num_l;
+            // TODO: change for log(num_r, error); once implemented
+            return 1.0 + num_r;
         }
     }
     *parsed = false;
