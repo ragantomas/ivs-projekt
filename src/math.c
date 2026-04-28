@@ -140,3 +140,76 @@ double power(double base, int exponent, int *error) {
     }
     return result;
 }
+double root(int degree, double radicand, int *error) {
+    if (degree <= 0) {
+        if (error) {
+            *error = 1;}
+        return 0.0;
+    }
+
+    if (radicand < 0 && degree % 2 == 0) {
+        if (error) {
+            *error = 1;
+        }
+        return 0.0;
+    }
+
+    if (radicand == 0.0) {
+        if (error) {
+            *error = 0;}
+        return 0.0;
+    }
+
+    double x = radicand;
+    double precision = 0.00001;
+
+    for (int i = 0; i < 50; i++) {
+        double prev = x;
+
+        double previous_power = 1.0;
+        for (int j = 0; j < degree - 1; j++) {
+            previous_power *= x;
+        }
+
+        if (previous_power == 0.0) {
+            break;
+        }
+
+        x = ((degree - 1) * x + radicand / previous_power) / degree;
+
+        double diff = x - prev;
+        if (diff < 0) {
+            diff = -diff;
+        }
+
+        if (diff < precision) {
+            break;
+        }
+    }
+
+    if (error) {
+        *error = 0;}
+
+    return x;
+}
+double logarithm(double x, int *error) {
+    if (x <= 0) {
+        if (error) {
+            *error = 1;}
+        return 0.0; 
+    }
+    
+    if (error) {
+        *error = 0;}
+    
+    double result = 0.0;
+    double fraction = (x - 1.0) / (x + 1.0);
+    double fraction_power = fraction * fraction;
+    double numerator = fraction;
+
+    for (int i = 1; i < 40; i += 2) {
+        result += numerator / i;
+        numerator *= fraction_power;
+    }
+    return 2.0 * result;
+}
