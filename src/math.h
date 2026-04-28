@@ -94,7 +94,7 @@ double power(double base, int exponent, int *error);
  *
  * @return n-th root of radicand
  */
-double n_root(double degree, double radicand, int *error);
+double n_root(int degree, double radicand, int *error);
 
 /**
  * @brief Computes base-10 logarithm
