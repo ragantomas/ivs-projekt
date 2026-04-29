@@ -19,12 +19,12 @@ double add(double a, double b, int *error) {
     double result = a + b;
 
     if(error){
-    // overflow check (positive and negative)
-    if (isinf(result)) {
-        *error = 1; // overflow error
-    } else {
-        *error = 0;
-    }
+        // overflow check (positive and negative)
+        if (isinf(result)) {
+            *error = 4; // overflow error
+        } else {
+            *error = 0;
+        }
     }
 
     return result;
@@ -33,12 +33,12 @@ double sub(double a, double b, int *error) {
     double result = a - b;
 
     if(error){
-    // overflow check (positive and negative)
-    if (isinf(result)) {
-        *error = 1; // overflow error
-    } else {
-        *error = 0;
-    }
+        // overflow check (positive and negative)
+        if (isinf(result)) {
+            *error = 4; // overflow error
+        } else {
+            *error = 0;
+        }
     }
 
     return result;
@@ -47,12 +47,12 @@ double mul(double a, double b, int *error) {
     double result = a * b;
 
     if(error){
-    // overflow check (positive and negative)
-    if (isinf(result)) {
-        *error = 1; // overflow error
-    } else {
-        *error = 0;
-    }
+        // overflow check (positive and negative)
+        if (isinf(result)) {
+            *error = 4; // overflow error
+        } else {
+            *error = 0;
+        }
     }
 
     return result;
@@ -60,37 +60,38 @@ double mul(double a, double b, int *error) {
 double divide(double a, double b, int *error) {
     if (b == 0.0) {
         if (error) {
-            *error = 1; // error: div by zero
-            }    
+            *error = 5; // error: div by zero
+        }
         return 0.0;
-        } 
-        else {
+    }
+    else {
         if (error) {
             *error = 0;
-            }
-    double result = a / b;
-    return result;
+        }
+        double result = a / b;
+        return result;
     }
 }
 double factorial(double n, int *error) {
     if (n != (int)n){
-        *error = 6;
+        *error = 6; // Decimal number in factorial
     }
     if (n < 0){
         if (error){
-            *error = 1;
+            *error = 7; // Negative number in factorial
         }
         return 0;
     }
     if (n == 0 || n == 1) {
         if (error){
-            *error = 0;}
+            *error = 0;
+        }
         return 1;
     }
     //overflow check (21! doesn't fit double)
     if (n > 20) {
         if (error){
-            *error = 1; // overflow error
+            *error = 4; // overflow error
         }
         return 0; 
     }
@@ -114,7 +115,7 @@ double power(double base, double exponent, int *error) {
     // error div by zero
     if (base == 0.0 && exponent < 0) {
         if (error){
-            *error = 1;
+            *error = 5; // Division by 0
         }
         return 0.0;
     }
@@ -136,7 +137,7 @@ double power(double base, double exponent, int *error) {
     }
     if (error) {
         if (isinf(result)) {
-            *error = 1;
+            *error = 4; // overflow error
         } 
         else {
             *error = 0;
@@ -147,13 +148,13 @@ double power(double base, double exponent, int *error) {
 double n_root(double degree, double radicand, int *error) {
     if (degree <= 0) {
         if (error) {
-            *error = 1;}
+            *error = 8;} // negative number or 0 in root
         return 0.0;
     }
 
     if (radicand < 0 && degree % 2 == 0) {
         if (error) {
-            *error = 1;
+            *error = 8; // negative number in root
         }
         return 0.0;
     }
@@ -199,12 +200,14 @@ double n_root(double degree, double radicand, int *error) {
 double logarithm(double x, int *error) {
     if (x <= 0) {
         if (error) {
-            *error = 1;}
+            *error = 9; // Negative number or 0 in log
+        }
         return 0.0; 
     }
     
     if (error) {
-        *error = 0;}
+        *error = 0;
+    }
     
     double result = 0.0;
     double fraction = (x - 1.0) / (x + 1.0);
