@@ -141,6 +141,7 @@ int run_calculator(int argc, char *argv[]) {
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(window), "Calculator");
     gtk_window_set_default_size(GTK_WINDOW(window), 150, 200);
+    gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 
     // Create grid layout
     grid = gtk_grid_new();
