@@ -29,11 +29,32 @@ double parse_factorial(const char *equation, unsigned int lenght, unsigned int *
                 return 0.0;
             }
 
-            double num_l = parse_equation(equation, character, 0, error);
+            double num_l = parse_equation(equation, character, 7, error);
             if(*error) {
                 return 0.0;
             }
             return factorial(num_l, error);
+        }
+    }
+    *parsed = false;
+    return 0.0;
+}
+
+double parse_log(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+    for (int character = lenght - 1; character >= 0; character--) {
+        if (equation[character] == 'l') {
+            *parsed = true;
+            const char *equation_r = equation + character + 1;
+            unsigned int lenght_r = lenght - character - 1;
+            if (lenght_r == 0) {
+                *error = 3;
+                return 0.0;
+            }
+            double num_r = parse_equation(equation_r, lenght_r, 6, error);
+            if(*error) {
+                return 0.0;
+            }
+            return logarithm(num_r, error);
         }
     }
     *parsed = false;
@@ -56,12 +77,12 @@ double parse_power(const char *equation, unsigned int lenght, unsigned int *erro
                 return 0.0;
             }
 
-            double num_r = parse_equation(equation_r, lenght_r, 2, error);
+            double num_r = parse_equation(equation_r, lenght_r, 6, error);
             if(*error) {
                 return 0.0;
             }
 
-            double num_l = parse_equation(equation_l, lenght_l, 1, error);
+            double num_l = parse_equation(equation_l, lenght_l, 5, error);
             if(*error) {
                 return 0.0;
             }
@@ -88,37 +109,16 @@ double parse_root(const char *equation, unsigned int lenght, unsigned int *error
                 return 0.0;
             }
 
-            double num_r = parse_equation(equation_r, lenght_r, 3, error);
+            double num_r = parse_equation(equation_r, lenght_r, 5, error);
             if(*error) {
                 return 0.0;
             }
 
-            double num_l = parse_equation(equation_l, lenght_l, 2, error);
+            double num_l = parse_equation(equation_l, lenght_l, 4, error);
             if(*error) {
                 return 0.0;
             }
             return n_root(num_l, num_r, error);
-        }
-    }
-    *parsed = false;
-    return 0.0;
-}
-
-double parse_log(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
-    for (int character = lenght - 1; character >= 0; character--) {
-        if (equation[character] == 'l') {
-            *parsed = true;
-            const char *equation_r = equation + character + 1;
-            unsigned int lenght_r = lenght - character - 1;
-            if (lenght_r == 0) {
-                *error = 3;
-                return 0.0;
-            }
-            double num_r = parse_equation(equation_r, lenght_r, 3, error);
-            if(*error) {
-                return 0.0;
-            }
-            return logarithm(num_r, error);
         }
     }
     *parsed = false;
@@ -141,16 +141,16 @@ double parse_mul(const char *equation, unsigned int lenght, unsigned int *error,
                 return 0.0;
             }
 
-            double num_r = parse_equation(equation_r, lenght_r, 5, error);
+            double num_r = parse_equation(equation_r, lenght_r, 4, error);
             if(*error) {
                 return 0.0;
             }
 
-            double num_l = parse_equation(equation_l, lenght_l, 4, error);
+            double num_l = parse_equation(equation_l, lenght_l, 3, error);
             if(*error) {
                 return 0.0;
             }
-
+            printf("%f * %f\n", num_l, num_r);
             return mul(num_l, num_r, error);
         }
     }
@@ -174,12 +174,12 @@ double parse_div(const char *equation, unsigned int lenght, unsigned int *error,
                 return 0.0;
             }
 
-            double num_r = parse_equation(equation_r, lenght_r, 6, error);
+            double num_r = parse_equation(equation_r, lenght_r, 3, error);
             if(*error) {
                 return 0.0;
             }
 
-            double num_l = parse_equation(equation_l, lenght_l, 5, error);
+            double num_l = parse_equation(equation_l, lenght_l, 2, error);
             if(*error) {
                 return 0.0;
             }
@@ -207,16 +207,16 @@ double parse_add(const char *equation, unsigned int lenght, unsigned int *error,
                 return 0.0;
             }
 
-            double num_r = parse_equation(equation_r, lenght_r, 7, error);
+            double num_r = parse_equation(equation_r, lenght_r, 2, error);
             if(*error) {
                 return 0.0;
             }
 
-            double num_l = parse_equation(equation_l, lenght_l, 6, error);
+            double num_l = parse_equation(equation_l, lenght_l, 1, error);
             if(*error) {
                 return 0.0;
             }
-
+            printf("%f + %f\n", num_l, num_r);
             return add(num_l, num_r, error);
         }
     }
@@ -240,7 +240,7 @@ double parse_sub(const char *equation, unsigned int lenght, unsigned int *error,
                 return 0.0;
             }
 
-            double num_r = parse_equation(equation_r, lenght_r, 7, error);
+            double num_r = parse_equation(equation_r, lenght_r, 1, error);
             if(*error) {
                 return 0.0;
             }
@@ -249,12 +249,12 @@ double parse_sub(const char *equation, unsigned int lenght, unsigned int *error,
             if (lenght_l == 0) {
                 num_l = 0.0;
             } else {
-                num_l = parse_equation(equation_l, lenght_l, 7, error);
+                num_l = parse_equation(equation_l, lenght_l, 0, error);
             }
             if(*error) {
                 return 0.0;
             }
-
+            printf("%f - %f\n", num_l, num_r);
             return sub(num_l, num_r, error);
         }
     }
@@ -268,42 +268,42 @@ double parse_equation(const char *equation, unsigned int lenght, unsigned int de
     // parses for each operator, ignores the one for which it already checked
     switch(depth) {
         case 0:
-            value = parse_factorial(equation, lenght, error, &parsed);
+            value = parse_sub(equation, lenght, error, &parsed);
             if (parsed) {
                 return value;
             }
         case 1:
-            value = parse_power(equation, lenght, error, &parsed);
-            if (parsed) {
-                return value;
-            }
-        case 2:
-            value = parse_root(equation, lenght, error, &parsed);
-            if (parsed) {
-                return value;
-            }
-        case 3:
-            value = parse_log(equation, lenght, error, &parsed);
-            if (parsed) {
-                return value;
-            }
-        case 4:
-            value = parse_mul(equation, lenght, error, &parsed);
-            if (parsed) {
-                return value;
-            }
-        case 5:
-            value = parse_div(equation, lenght, error, &parsed);
-            if (parsed) {
-                return value;
-            }
-        case 6:
             value = parse_add(equation, lenght, error, &parsed);
             if (parsed) {
                 return value;
             }
+        case 2:
+            value = parse_div(equation, lenght, error, &parsed);
+            if (parsed) {
+                return value;
+            }
+        case 3:
+            value = parse_mul(equation, lenght, error, &parsed);
+            if (parsed) {
+                return value;
+            }
+        case 4:
+            value = parse_root(equation, lenght, error, &parsed);
+            if (parsed) {
+                return value;
+            }
+        case 5:
+            value = parse_power(equation, lenght, error, &parsed);
+            if (parsed) {
+                return value;
+            }
+        case 6:
+            value = parse_log(equation, lenght, error, &parsed);
+            if (parsed) {
+                return value;
+            }
         case 7:
-            value = parse_sub(equation, lenght, error, &parsed);
+            value = parse_factorial(equation, lenght, error, &parsed);
             if (parsed) {
                 return value;
             }
@@ -341,29 +341,3 @@ double parse_number(const char *number, unsigned int lenght, unsigned int *error
     }
     return strtod(number, NULL);
 }
-
-/*int main(int argc, char *argv[]) {
-    nuber test
-    unsigned int error1 = 0;
-    unsigned int error2 = 0;
-    unsigned int error3 = 0;
-    unsigned int error4 = 0;
-    char *number1 = "123";
-    char *number2 = "123.00";
-    char *number3 = "123.0.";
-    char *number4 = "12a3";
-    double num1 = parse_number(number1, 3, &error1);
-    double num2 = parse_number(number2, 6, &error2);
-    double num3 = parse_number(number3, 6, &error3);
-    double num4 = parse_number(number4, 4, &error4);
-    printf("%f Error: %i \n", num1, error1);
-    printf("%f Error: %i \n", num2, error2);
-    printf("%f Error: %i \n", num3, error3);
-    printf("%f Error: %i \n", num4, error4);
-    unsigned int error1 = 0;
-    char *equation1 = "123-7*12.5+-14/11r3^2!";
-    double num1 = parse_equation(equation1, 22, 0, &error1);
-    printf("%f Error: %i \n", num1, error1);
-    return 0; //
-}*/
-
