@@ -1,1 +1,8 @@
 Termíny sa nám veľmi nedarilo dodržiavať kvôli projektom z ostatných predmetov, všetci pracovali na svojich častiach ale došlo k prerozdeleniu Profiling kvôli chýbajucému členovi.
+
+9.4.2026 – Návrh matematickej knižnice a GUI rozhrania, vytvorenie mockupov
+22.4.2026 –  prvá verzia GUI
+24.4.2026 – Implementácia nápovedy, ovládanie pomocou klávesnice
+26.4.2026 – Dokumentácia
+29.4.2026 – Dokončenie matematickej knižnice, Kontrola repozitára, kontrola súborov
+29.4.2026 – Finálne odovzdanie súborov
