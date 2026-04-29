@@ -26,12 +26,12 @@ double parse_factorial(char *equation, unsigned int lenght, unsigned int *error,
             // if there is nothing as input
             if (character == 0) {
                 *error = 3;
-                return 0;
+                return 0.0;
             }
 
             double num_l = parse_equation(equation, character, 0, error);
             if(*error) {
-                return 0;
+                return 0.0;
             }
 
             // TODO: change for factorial(num_r, error); once implemented
@@ -40,7 +40,7 @@ double parse_factorial(char *equation, unsigned int lenght, unsigned int *error,
         }
     }
     *parsed = false;
-    return 0;
+    return 0.0;
 }
 
 double parse_power(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
@@ -56,17 +56,17 @@ double parse_power(char *equation, unsigned int lenght, unsigned int *error, boo
             // if there is nothing as input
             if (lenght_r == 0 || lenght_l == 0) {
                 *error = 3;
-                return 0;
+                return 0.0;
             }
 
             double num_r = parse_equation(equation_r, lenght_r, 1, error);
             if(*error) {
-                return 0;
+                return 0.0;
             }
 
             double num_l = parse_equation(equation_l, lenght_l, 2, error);
             if(*error) {
-                return 0;
+                return 0.0;
             }
 
             // TODO: change for power(num_l, num_r, error); once implemented
@@ -74,7 +74,7 @@ double parse_power(char *equation, unsigned int lenght, unsigned int *error, boo
         }
     }
     *parsed = false;
-    return 0;
+    return 0.0;
 }
 
 double parse_root(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
@@ -90,17 +90,17 @@ double parse_root(char *equation, unsigned int lenght, unsigned int *error, bool
             // if there is nothing as input
             if (lenght_r == 0) {
                 *error = 3;
-                return 0;
+                return 0.0;
             }
 
             double num_r = parse_equation(equation_r, lenght_r, 2, error);
             if(*error) {
-                return 0;
+                return 0.0;
             }
 
             double num_l = parse_equation(equation_l, lenght_l, 3, error);
             if(*error) {
-                return 0;
+                return 0.0;
             }
 
             // TODO: change for root(num_r, error); once implemented
@@ -108,7 +108,7 @@ double parse_root(char *equation, unsigned int lenght, unsigned int *error, bool
         }
     }
     *parsed = false;
-    return 0;
+    return 0.0;
 }
 double parse_log(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
     for (unsigned int character = 0; character < lenght; character++) {
@@ -116,24 +116,24 @@ double parse_log(char *equation, unsigned int lenght, unsigned int *error, bool 
             *parsed = true;
             if (character >= lenght - 2 || equation[character + 1] != 'o' || equation[character + 2] != 'g') {
                 *error = 99; // TODO: we ight be able to remove this
-                return 0;
+                return 0.0;
             }
             char *equation_r = equation + character + 3;
             unsigned int lenght_r = lenght - character - 3;
             if (lenght_r == 0) {
                 *error = 3;
-                return 0;
+                return 0.0;
             }
             double num_r = parse_equation(equation_r, lenght_r, 3, error);
             if(*error) {
-                return 0;
+                return 0.0;
             }
             // TODO: change for log(num_r, error); once implemented
             return 1.0 + num_r;
         }
     }
     *parsed = false;
-    return 0;
+    return 0.0;
 }
 
 double parse_mul(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
@@ -149,17 +149,17 @@ double parse_mul(char *equation, unsigned int lenght, unsigned int *error, bool 
             // if there is nothing as input
             if (lenght_r == 0 || lenght_l == 0) {
                 *error = 3;
-                return 0;
+                return 0.0;
             }
 
             double num_r = parse_equation(equation_r, lenght_r, 4, error);
             if(*error) {
-                return 0;
+                return 0.0;
             }
 
             double num_l = parse_equation(equation_l, lenght_l, 5, error);
             if(*error) {
-                return 0;
+                return 0.0;
             }
 
             // TODO: change for mul(num_l, num_r, error); once implemented
@@ -167,7 +167,7 @@ double parse_mul(char *equation, unsigned int lenght, unsigned int *error, bool 
         }
     }
     *parsed = false;
-    return 0;
+    return 0.0;
 }
 
 double parse_div(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
@@ -183,17 +183,17 @@ double parse_div(char *equation, unsigned int lenght, unsigned int *error, bool 
             // if there is nothing as input
             if (lenght_r == 0 || lenght_l == 0) {
                 *error = 3;
-                return 0;
+                return 0.0;
             }
 
             double num_r = parse_equation(equation_r, lenght_r, 5, error);
             if(*error) {
-                return 0;
+                return 0.0;
             }
 
             double num_l = parse_equation(equation_l, lenght_l, 6, error);
             if(*error) {
-                return 0;
+                return 0.0;
             }
 
             // TODO: change for div(num_l, num_r, error); once implemented
@@ -201,7 +201,7 @@ double parse_div(char *equation, unsigned int lenght, unsigned int *error, bool 
         }
     }
     *parsed = false;
-    return 0;
+    return 0.0;
 }
 
 double parse_add(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
@@ -217,17 +217,17 @@ double parse_add(char *equation, unsigned int lenght, unsigned int *error, bool 
             // if there is nothing as input
             if (lenght_r == 0 || lenght_l == 0) {
                 *error = 3;
-                return 0;
+                return 0.0;
             }
 
             double num_r = parse_equation(equation_r, lenght_r, 6, error);
             if(*error) {
-                return 0;
+                return 0.0;
             }
 
             double num_l = parse_equation(equation_l, lenght_l, 7, error);
             if(*error) {
-                return 0;
+                return 0.0;
             }
 
             // TODO: change for add(num_l, num_r, error); once implemented
@@ -235,11 +235,49 @@ double parse_add(char *equation, unsigned int lenght, unsigned int *error, bool 
         }
     }
     *parsed = false;
-    return 0;
+    return 0.0;
+}
+
+double parse_sub(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+    for (unsigned int character = 0; character < lenght; character++) {
+        if (equation[character] == '+') {
+            *parsed = true;
+
+            char *equation_r = equation + character + 1;
+            char *equation_l = equation;
+            unsigned int lenght_r = lenght - character - 1;
+            unsigned int lenght_l = character;
+
+            // if there is nothing as input
+            if (lenght_r == 0) {
+                *error = 3;
+                return 0.0;
+            }
+
+            double num_r = parse_equation(equation_r, lenght_r, 7, error);
+            if(*error) {
+                return 0.0;
+            }
+            // parsing possible negative numbers
+            double num_l;
+            if (lenght_l == 0) {
+                num_l = 0.0;
+            } else {
+                num_l = parse_equation(equation_l, lenght_l, 7, error);
+            }
+            if(*error) {
+                return 0.0;
+            }
+
+            // TODO: change for sub(num_l, num_r, error); once implemented
+            return 1.0 + num_r + num_l;
+        }
+    }
+    *parsed = false;
+    return 0.0;
 }
 
 double parse_equation(char *equation, unsigned int lenght, unsigned int depth, unsigned int *error) {
-    //"!","^","√","log","*","/","-","+"
     bool parsed;
     double value;
     // parses for each operator, ignores the one for which it already checked
@@ -289,12 +327,12 @@ double parse_number(char *number, unsigned int lenght, unsigned int *error) {
               number[character] == '8' ||
               number[character] == '9')) {
             *error = 2;
-            return 0;
+            return 0.0;
         }
     }
     if (decimal_points > 1) {
         *error = 1;
-        return 0;
+        return 0.0;
     }
     return strtod(number, NULL);
 }
