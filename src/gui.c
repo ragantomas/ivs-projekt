@@ -102,7 +102,7 @@ int run_calculator(int argc, char *argv[]) {
     // Create main window
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(window), "Calculator");
-    gtk_window_set_default_size(GTK_WINDOW(window), 180, 200);
+    gtk_window_set_default_size(GTK_WINDOW(window), 150, 200);
 
     // Create grid layout
     grid = gtk_grid_new();
@@ -117,16 +117,16 @@ int run_calculator(int argc, char *argv[]) {
     g_signal_connect(window, "key-press-event", G_CALLBACK(on_key_press), display);
     g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
-    //Button layout
+    // Button layout
     const char *buttons[] = {
-        "C", "B", "log", "/",
+        "C",      "B", "/",
         "7", "8", "9", "*",
         "4", "5", "6", "-",
         "1", "2", "3", "+",
-        "0", ".", "=", "^",
-        "√", "!"
+        "0", ".", "!", "log",
+        "√", "^", "="
     };
-    //Tooltip strings with descrioptions of buttons
+    // Tooltip strings with descrioptions of buttons
     const char *tooltips[] = {
     "[C] Clear the display",
     "[B] Delete the last character",
@@ -158,7 +158,7 @@ int run_calculator(int argc, char *argv[]) {
 };
 
     int row = 1, col = 0;
-
+    // Create buttons
     for (int i = 0; i < 22; i++) {
         GtkWidget *button = gtk_button_new_with_label(buttons[i]);
         gtk_widget_set_tooltip_text(button, tooltips[i]);
@@ -170,8 +170,13 @@ int run_calculator(int argc, char *argv[]) {
         } else {
             g_signal_connect(button, "clicked", G_CALLBACK(on_button_clicked), display);
         }
-
-        gtk_grid_attach(GTK_GRID(grid), button, col, row, 1, 1);
+        // Buttons C and = are wider
+        if(i == 0 || i == 21) {
+            gtk_grid_attach(GTK_GRID(grid), button, col, row, 2, 1);
+            col++;
+        } else {
+            gtk_grid_attach(GTK_GRID(grid), button, col, row, 1, 1);
+        }
 
         col++;
         if (col == 4) {
