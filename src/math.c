@@ -144,7 +144,7 @@ double power(double base, double exponent, int *error) {
     }
     return result;
 }
-double root(double degree, double radicand, int *error) {
+double n_root(double degree, double radicand, int *error) {
     if (degree <= 0) {
         if (error) {
             *error = 1;}
