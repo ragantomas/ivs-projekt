@@ -104,7 +104,7 @@ double factorial(double n, int *error) {
     }
     return result; 
 }
-double power(double base, int exponent, int *error) {
+double power(double base, double exponent, int *error) {
     if (exponent == 0) {
         if (error) {
             *error = 0;
@@ -144,7 +144,7 @@ double power(double base, int exponent, int *error) {
     }
     return result;
 }
-double root(int degree, double radicand, int *error) {
+double root(double degree, double radicand, int *error) {
     if (degree <= 0) {
         if (error) {
             *error = 1;}
