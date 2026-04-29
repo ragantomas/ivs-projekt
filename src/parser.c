@@ -129,6 +129,40 @@ double parse_log(char *equation, unsigned int lenght, unsigned int *error, bool 
     return 0;
 }
 
+double parse_mul(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+    for (unsigned int character = 0; character < lenght; character++) {
+        if (equation[character] == '*') {
+            *parsed = true;
+
+            char *equation_r = equation + character + 1;
+            char *equation_l = equation;
+            unsigned int lenght_r = lenght - character - 1;
+            unsigned int lenght_l = character;
+
+            // if there is nothing as input
+            if (lenght_r == 0 || lenght_l == 0) {
+                *error = 3;
+                return 0;
+            }
+
+            double num_r = parse_equation(equation_r, lenght_r, 4, error);
+            if(*error) {
+                return 0;
+            }
+
+            double num_l = parse_equation(equation_l, lenght_l, 5, error);
+            if(*error) {
+                return 0;
+            }
+
+            // TODO: change for mul(num_l, num_r, error); once implemented
+            return 1.0 + num_r + num_l;
+        }
+    }
+    *parsed = false;
+    return 0;
+}
+
 double parse_equation(char *equation, unsigned int lenght, unsigned int depth, unsigned int *error) {
     //"!","^","√","log","*","/","-","+"
     bool parsed;
