@@ -18,7 +18,7 @@ const char *err_msg[] = {
     "Error: Multimle decimal points",
     "Error: Unrecognized character",
     "Error: No input for function",
-    "Error:",
+    "Error: Number out of bounds",
 };
 /**
  * Handles button clicks (numbers and operators)
@@ -158,7 +158,6 @@ int run_calculator(int argc, char *argv[]) {
     const char *tooltips[] = {
     "[C] Clear the display",
     "[B] Delete the last character",
-    "[L] Calculate base-10 logarithm: log(x)",
     "[/] Division operator: x/y",
 
     "[7] Digit 7",
@@ -178,11 +177,12 @@ int run_calculator(int argc, char *argv[]) {
 
     "[0] Digit 0",
     "[.] Decimal point",
-    "[Enter] Evaluate the expression and display the result",
-    "[^] Power function: x^y",
+    "[!] Factorial: x!",
+    "[L] Base-10 logarithm: log(x)",
 
-    "[R] Square root function: y√x",
-    "[!] Factorial: x!"
+    "[R] Root function: y√x",
+    "[^] Power function: x^y",
+    "[Enter] Evaluate the expression and display the result"
 };
 
     int row = 1, col = 0;
