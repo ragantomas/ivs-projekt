@@ -225,5 +225,9 @@ double logarithm(double x, int *error) {
         result += numerator / i;
         numerator *= fraction_power;
     }
-    return 2.0 * result;
+    double ln_x = 2.0 * result;
+
+    // Convert ln(x) to log10(x)
+    const double LN10 = 2.302585092994046; // ln(10)
+    return ln_x / LN10;
 }
