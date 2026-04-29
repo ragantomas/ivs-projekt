@@ -75,6 +75,7 @@ double divide(double a, double b, int *error) {
 double factorial(double n, int *error) {
     if (n != (int)n){
         *error = 6; // Decimal number in factorial
+        return 0.0;
     }
     if (n < 0){
         if (error){
@@ -108,6 +109,7 @@ double factorial(double n, int *error) {
 double power(double base, double exponent, int *error) {
     if (exponent != (int)exponent){
         *error = 11; // Decimal number in exponent
+        return 0.0;
     }
     if (exponent == 0) {
         if (error) {
@@ -151,6 +153,7 @@ double power(double base, double exponent, int *error) {
 double n_root(double degree, double radicand, int *error) {
     if (degree != (int)degree){
         *error = 12; // Decimal number in degree
+        return 0.0;
     }
     if (degree <= 0) {
         if (error) {
