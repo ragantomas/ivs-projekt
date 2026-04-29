@@ -23,7 +23,10 @@ const char *err_msg[] = {
     "Error: Decimal number in factorial",
     "Error: Negative number in factorial",
     "Error: Negative number or 0 in root",
-    "Error: Negative number or 0 in log"
+    "Error: Root does not exist",
+    "Error: Negative number or 0 in log",
+    "Error: Decimal number in exponent",
+    "Error: Decimal number in degree"
 };
 /**
  * Handles button clicks (numbers and operators)
