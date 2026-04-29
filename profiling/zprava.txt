@@ -1,0 +1,5 @@
+Program sa najdlhšie zdržal pri add a mul, keďže sú vo vnútri hlavného while cyklu, kde pre každé jedno načítané číslo zo stdin sa 2x zavolá add a 1x mul.
+
+Na čo sa zameriať:
+1.) Minimalizovanie počtu volaní
+2.) Redukcia podmienok

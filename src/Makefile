@@ -18,9 +18,10 @@ build:
 
 test:
 	@mkdir -p build
-	$(CC) $(CFLAGS) -c stddev.c -o build/stddev.o
+	$(CC) $(CFLAGS) -c test_math.c -o build/test_math.o
 	$(CC) $(CFLAGS) -c math.c -o build/math.o
-	$(CC) $(CFLAGS) build/stddev.o build/math.o -o stddev $(MATH_FLAGS)
+	$(CC) $(CFLAGS) build/test_math.o build/math.o -o run_tests $(MATH_FLAGS)
+	./run_tests
 
 pack: clean
 	mkdir -p ../$(TEAM_NAME)/repo
@@ -36,15 +37,11 @@ run: build
 	./calculator
 
 stddev:
-	@mkdir -p build
-	$(CC) $(CFLAGS) -pg $(GTK_INC) -c gui.c -o build/gui.o
-	$(CC) $(CFLAGS) -pg -c parser.c -o build/parser.o
-	$(CC) $(CFLAGS) -pg -c math.c -o build/math.o
-	$(CC) $(CFLAGS) -pg build/gui.o build/math.o -o calculator_prof $(GTK_FLAGS) $(MATH_FLAGS)
+	$(CC) $(CFLAGS) -pg -fno-pie stddev.c math.c -o stddev $(MATH_FLAGS)
 
 
 clean:
-	rm -rf build calculator calculator_prof run_tests gmon.out profiling_result.txt $(TEAM_NAME) $(TEAM_NAME).zip ../doxygen_output warning_doxygen.txt
+	rm -rf build calculator stddev_prof run_tests gmon.out profiling_result.txt $(TEAM_NAME) $(TEAM_NAME).zip ../doxygen_output warning_doxygen.txt zprava.txt
 
 help:
 	@echo "Postup pre úspešnú kompiláciu:"
