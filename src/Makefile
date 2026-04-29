@@ -12,14 +12,14 @@ All: Build Profile
 Build:
 	@mkdir -p build
 	$(CC) $(CFLAGS) $(GTK_INC) -c gui.c -o build/gui.o
-	$(CC) $(CFLAGS) -c math_lib.c -o build/math_lib.o
-	$(CC) $(CFLAGS) build/gui.o build/math_lib.o -o calculator $(GTK_FLAGS) $(MATH_FLAGS)
+	$(CC) $(CFLAGS) -c math.c -o build/math.o
+	$(CC) $(CFLAGS) build/gui.o build/math.o -o calculator $(GTK_FLAGS) $(MATH_FLAGS)
 
 Profile: Clean
 	@mkdir -p build
 	$(CC) $(CFLAGS) -pg $(GTK_INC) -c gui.c -o build/gui.o
-	$(CC) $(CFLAGS) -pg -c math_lib.c -o build/math_lib.o
-	$(CC) $(CFLAGS) -pg build/gui.o build/math_lib.o -o calculator_prof $(GTK_FLAGS) $(MATH_FLAGS)
+	$(CC) $(CFLAGS) -pg -c math.c -o build/math.o
+	$(CC) $(CFLAGS) -pg build/gui.o build/math.o -o calculator_prof $(GTK_FLAGS) $(MATH_FLAGS)
 	./calculator_prof
 	gprof calculator_prof gmon.out > profiling_result.txt
 	@echo "Profiling complete. Results in profiling_result.txt"
@@ -27,8 +27,8 @@ Profile: Clean
 Test:
 	@mkdir -p build
 	$(CC) $(CFLAGS) -c test_math.c -o build/test_math.o
-	$(CC) $(CFLAGS) -c math_lib.c -o build/math_lib.o
-	$(CC) $(CFLAGS) build/test_math.o build/math_lib.o -o run_tests $(MATH_FLAGS)
+	$(CC) $(CFLAGS) -c math.c -o build/math.o
+	$(CC) $(CFLAGS) build/test_math.o build/math.o -o run_tests $(MATH_FLAGS)
 	./run_tests
 
 Pack: Clean
