@@ -110,6 +110,7 @@ double parse_root(char *equation, unsigned int lenght, unsigned int *error, bool
     *parsed = false;
     return 0.0;
 }
+
 double parse_log(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
     for (unsigned int character = 0; character < lenght; character++) {
         if (equation[character] == 'l') {
@@ -293,15 +294,35 @@ double parse_equation(char *equation, unsigned int lenght, unsigned int depth, u
                 return value;
             }
         case 2:
-            value = 0; //parse_root(equation, lenght, error, &parsed);
+            value = parse_root(equation, lenght, error, &parsed);
             if (parsed) {
                 return value;
             }
         case 3:
+            value = parse_log(equation, lenght, error, &parsed);
+            if (parsed) {
+                return value;
+            }
         case 4:
+            value = parse_mul(equation, lenght, error, &parsed);
+            if (parsed) {
+                return value;
+            }
         case 5:
+            value = parse_div(equation, lenght, error, &parsed);
+            if (parsed) {
+                return value;
+            }
         case 6:
+            value = parse_add(equation, lenght, error, &parsed);
+            if (parsed) {
+                return value;
+            }
         case 7:
+            value = parse_sub(equation, lenght, error, &parsed);
+            if (parsed) {
+                return value;
+            }
         default:
             return parse_number(equation, lenght, error);
     }
