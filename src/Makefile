@@ -12,6 +12,7 @@ all: build stddev
 build:
 	@mkdir -p build
 	$(CC) $(CFLAGS) $(GTK_INC) -c gui.c -o build/gui.o
+	$(CC) $(CFLAGS) -c parser.c -o build/parser.o
 	$(CC) $(CFLAGS) -c math.c -o build/math.o
 	$(CC) $(CFLAGS) build/gui.o build/math.o -o calculator $(GTK_FLAGS) $(MATH_FLAGS)
 
@@ -37,6 +38,7 @@ run: build
 stddev:
 	@mkdir -p build
 	$(CC) $(CFLAGS) -pg $(GTK_INC) -c gui.c -o build/gui.o
+	$(CC) $(CFLAGS) -pg -c parser.c -o build/parser.o
 	$(CC) $(CFLAGS) -pg -c math.c -o build/math.o
 	$(CC) $(CFLAGS) -pg build/gui.o build/math.o -o calculator_prof $(GTK_FLAGS) $(MATH_FLAGS)
 

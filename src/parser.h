@@ -18,7 +18,7 @@
  */
 
 #include <stdbool.h>
-#include "math.c"
+#include "math.h"
 
 /**
  * @brief searches the string equation for factorials and evaluates them
@@ -30,7 +30,7 @@
  *
  * @return value of the equation
  */
-double parse_factorial(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed);
+double parse_factorial(const char *equation, unsigned int lenght, int *error, bool *parsed);
 
 /**
  * @brief searches the string equation for powers and evaluates them
@@ -42,7 +42,7 @@ double parse_factorial(const char *equation, unsigned int lenght, unsigned int *
  *
  * @return value of the equation
  */
-double parse_power(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed);
+double parse_power(const char *equation, unsigned int lenght, int *error, bool *parsed);
 
 /**
  * @brief searches the string equation for roots and evaluates them
@@ -54,7 +54,7 @@ double parse_power(const char *equation, unsigned int lenght, unsigned int *erro
  *
  * @return value of the equation
  */
-double parse_root(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed);
+double parse_root(const char *equation, unsigned int lenght, int *error, bool *parsed);
 
 /**
  * @brief searches the string equation for logarithms and evaluates them
@@ -66,7 +66,7 @@ double parse_root(const char *equation, unsigned int lenght, unsigned int *error
  *
  * @return value of the equation
  */
-double parse_log(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed);
+double parse_log(const char *equation, unsigned int lenght, int *error, bool *parsed);
 
 /**
  * @brief searches the string equation for multiplications and evaluates them
@@ -78,7 +78,7 @@ double parse_log(const char *equation, unsigned int lenght, unsigned int *error,
  *
  * @return value of the equation
  */
-double parse_mul(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed);
+double parse_mul(const char *equation, unsigned int lenght, int *error, bool *parsed);
 
 /**
  * @brief searches the string equation for divisions and evaluates them
@@ -90,7 +90,7 @@ double parse_mul(const char *equation, unsigned int lenght, unsigned int *error,
  *
  * @return value of the equation
  */
-double parse_div(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed);
+double parse_div(const char *equation, unsigned int lenght, int *error, bool *parsed);
 
 /**
  * @brief searches the string equation for additions and evaluates them
@@ -102,7 +102,7 @@ double parse_div(const char *equation, unsigned int lenght, unsigned int *error,
  *
  * @return value of the equation
  */
-double parse_add(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed);
+double parse_add(const char *equation, unsigned int lenght, int *error, bool *parsed);
 
 /**
  * @brief searches the string equation for subtractions and evaluates them
@@ -114,7 +114,7 @@ double parse_add(const char *equation, unsigned int lenght, unsigned int *error,
  *
  * @return value of the equation
  */
-double parse_sub(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed);
+double parse_sub(const char *equation, unsigned int lenght, int *error, bool *parsed);
 
 /**
  * @brief parses a string into a mathematical equation and returns its value
@@ -126,7 +126,7 @@ double parse_sub(const char *equation, unsigned int lenght, unsigned int *error,
  *
  * @return value of the equation
  */
-double parse_equation(const char *equation, unsigned int lenght, unsigned int depth, unsigned int *error);
+double parse_equation(const char *equation, unsigned int lenght, unsigned int depth, int *error);
 
 /**
  * @brief parses a string into decimal number
@@ -138,5 +138,5 @@ double parse_equation(const char *equation, unsigned int lenght, unsigned int de
  *
  * @return decimal value of the number
  */
-double parse_number(const char *number, unsigned int lenght, unsigned int *error);
+double parse_number(const char *number, unsigned int lenght, int *error);
 #endif // PARSER_H

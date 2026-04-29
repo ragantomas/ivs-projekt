@@ -18,7 +18,7 @@
 #include <stdlib.h>
 
 
-double parse_factorial(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+double parse_factorial(const char *equation, unsigned int lenght, int *error, bool *parsed) {
     for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == '!') {
             *parsed = true;
@@ -40,7 +40,7 @@ double parse_factorial(const char *equation, unsigned int lenght, unsigned int *
     return 0.0;
 }
 
-double parse_log(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+double parse_log(const char *equation, unsigned int lenght, int *error, bool *parsed) {
     for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == 'l') {
             *parsed = true;
@@ -61,7 +61,7 @@ double parse_log(const char *equation, unsigned int lenght, unsigned int *error,
     return 0.0;
 }
 
-double parse_power(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+double parse_power(const char *equation, unsigned int lenght, int *error, bool *parsed) {
     for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == '^') {
             *parsed = true;
@@ -93,7 +93,7 @@ double parse_power(const char *equation, unsigned int lenght, unsigned int *erro
     return 0.0;
 }
 
-double parse_root(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+double parse_root(const char *equation, unsigned int lenght, int *error, bool *parsed) {
     for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == 'r') {
             *parsed = true;
@@ -125,7 +125,7 @@ double parse_root(const char *equation, unsigned int lenght, unsigned int *error
     return 0.0;
 }
 
-double parse_mul(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+double parse_mul(const char *equation, unsigned int lenght, int *error, bool *parsed) {
     for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == '*') {
             *parsed = true;
@@ -157,7 +157,7 @@ double parse_mul(const char *equation, unsigned int lenght, unsigned int *error,
     return 0.0;
 }
 
-double parse_div(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+double parse_div(const char *equation, unsigned int lenght, int *error, bool *parsed) {
     for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == '/') {
             *parsed = true;
@@ -190,7 +190,7 @@ double parse_div(const char *equation, unsigned int lenght, unsigned int *error,
     return 0.0;
 }
 
-double parse_add(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+double parse_add(const char *equation, unsigned int lenght, int *error, bool *parsed) {
     for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == '+') {
             *parsed = true;
@@ -222,7 +222,7 @@ double parse_add(const char *equation, unsigned int lenght, unsigned int *error,
     return 0.0;
 }
 
-double parse_sub(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+double parse_sub(const char *equation, unsigned int lenght, int *error, bool *parsed) {
     for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == '-') {
 
@@ -266,7 +266,7 @@ double parse_sub(const char *equation, unsigned int lenght, unsigned int *error,
     return 0.0;
 }
 
-double parse_equation(const char *equation, unsigned int lenght, unsigned int depth, unsigned int *error) {
+double parse_equation(const char *equation, unsigned int lenght, unsigned int depth, int *error) {
     bool parsed;
     double value;
     // parses for each operator, ignores the one for which it already checked
@@ -316,7 +316,7 @@ double parse_equation(const char *equation, unsigned int lenght, unsigned int de
     }
 }
 
-double parse_number(const char *number, unsigned int lenght, unsigned int *error) {
+double parse_number(const char *number, unsigned int lenght, int *error) {
     int decimal_points = 0;
     for (unsigned int character = 0; character < lenght; character++) {
         // Allow unary minus if it is first
