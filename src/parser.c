@@ -83,7 +83,9 @@ double parse_root(char *equation, unsigned int lenght, unsigned int *error, bool
             *parsed = true;
 
             char *equation_r = equation + character + 1;
+            char *equation_l = equation;
             unsigned int lenght_r = lenght - character - 1;
+            unsigned int lenght_l = character;
 
             // if there is nothing as input
             if (lenght_r == 0) {
@@ -96,8 +98,13 @@ double parse_root(char *equation, unsigned int lenght, unsigned int *error, bool
                 return 0;
             }
 
+            double num_l = parse_equation(equation_l, lenght_l, 3, error);
+            if(*error) {
+                return 0;
+            }
+
             // TODO: change for root(num_r, error); once implemented
-            return 1.0 + num_r;
+            return 1.0 + num_r + num_l;
         }
     }
     *parsed = false;
