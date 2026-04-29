@@ -18,6 +18,7 @@
  */
 
 #include <stdbool.h>
+#include "math.c"
 
 /**
  * @brief searches the string equation for factorials and evaluates them

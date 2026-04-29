@@ -59,12 +59,12 @@ double parse_power(const char *equation, unsigned int lenght, unsigned int *erro
                 return 0.0;
             }
 
-            double num_r = parse_equation(equation_r, lenght_r, 1, error);
+            double num_r = parse_equation(equation_r, lenght_r, 2, error);
             if(*error) {
                 return 0.0;
             }
 
-            double num_l = parse_equation(equation_l, lenght_l, 2, error);
+            double num_l = parse_equation(equation_l, lenght_l, 1, error);
             if(*error) {
                 return 0.0;
             }
@@ -93,12 +93,12 @@ double parse_root(const char *equation, unsigned int lenght, unsigned int *error
                 return 0.0;
             }
 
-            double num_r = parse_equation(equation_r, lenght_r, 2, error);
+            double num_r = parse_equation(equation_r, lenght_r, 3, error);
             if(*error) {
                 return 0.0;
             }
 
-            double num_l = parse_equation(equation_l, lenght_l, 3, error);
+            double num_l = parse_equation(equation_l, lenght_l, 2, error);
             if(*error) {
                 return 0.0;
             }
@@ -149,18 +149,17 @@ double parse_mul(const char *equation, unsigned int lenght, unsigned int *error,
                 return 0.0;
             }
 
-            double num_r = parse_equation(equation_r, lenght_r, 4, error);
+            double num_r = parse_equation(equation_r, lenght_r, 5, error);
             if(*error) {
                 return 0.0;
             }
 
-            double num_l = parse_equation(equation_l, lenght_l, 5, error);
+            double num_l = parse_equation(equation_l, lenght_l, 4, error);
             if(*error) {
                 return 0.0;
             }
 
-            // TODO: change for mul(num_l, num_r, error); once implemented
-            return 1.0 + num_r + num_l;
+            return mul(num_l, num_r, error);
         }
     }
     *parsed = false;
@@ -183,18 +182,17 @@ double parse_div(const char *equation, unsigned int lenght, unsigned int *error,
                 return 0.0;
             }
 
-            double num_r = parse_equation(equation_r, lenght_r, 5, error);
+            double num_r = parse_equation(equation_r, lenght_r, 6, error);
             if(*error) {
                 return 0.0;
             }
 
-            double num_l = parse_equation(equation_l, lenght_l, 6, error);
+            double num_l = parse_equation(equation_l, lenght_l, 5, error);
             if(*error) {
                 return 0.0;
             }
 
-            // TODO: change for div(num_l, num_r, error); once implemented
-            return 1.0 + num_r + num_l;
+            return divide(num_l, num_r, error);
         }
     }
     *parsed = false;
@@ -217,18 +215,17 @@ double parse_add(const char *equation, unsigned int lenght, unsigned int *error,
                 return 0.0;
             }
 
-            double num_r = parse_equation(equation_r, lenght_r, 6, error);
+            double num_r = parse_equation(equation_r, lenght_r, 7, error);
             if(*error) {
                 return 0.0;
             }
 
-            double num_l = parse_equation(equation_l, lenght_l, 7, error);
+            double num_l = parse_equation(equation_l, lenght_l, 6, error);
             if(*error) {
                 return 0.0;
             }
 
-            // TODO: change for add(num_l, num_r, error); once implemented
-            return 1.0 + num_r + num_l;
+            return add(num_l, num_r, error);
         }
     }
     *parsed = false;
@@ -266,8 +263,7 @@ double parse_sub(const char *equation, unsigned int lenght, unsigned int *error,
                 return 0.0;
             }
 
-            // TODO: change for sub(num_l, num_r, error); once implemented
-            return 1.0 + num_r + num_l;
+            return sub(num_l, num_r, error);
         }
     }
     *parsed = false;

@@ -19,6 +19,8 @@ const char *err_msg[] = {
     "Error: Unrecognized character",
     "Error: No input for function",
     "Error: Number out of bounds",
+    "Error: Division by 0",
+    "Error: Decimal number in factorial"
 };
 /**
  * Handles button clicks (numbers and operators)
@@ -94,7 +96,15 @@ gboolean on_key_press(GtkWidget *window, GdkEventKey *event, GtkWidget *display)
     }
     // Enter → equals
     else if (event->keyval == GDK_KEY_Return || event->keyval == GDK_KEY_KP_Enter) {
-        //TODO: add parsing the expresion
+        unsigned int error = 0;
+        double num = parse_equation(current_text, strlen(current_text), 0, &error);
+
+        // if error reached, show error message
+        if (error) {
+            strcpy(new_text, err_msg[error - 1]);
+        } else {
+            snprintf(new_text, sizeof(new_text), "%f", num);
+        }
     }
     else if (event->keyval == GDK_KEY_BackSpace) {
         on_backspace_clicked(NULL, display);
@@ -131,6 +141,7 @@ int run_calculator(int argc, char *argv[]) {
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW(window), "Calculator");
     gtk_window_set_default_size(GTK_WINDOW(window), 150, 200);
+    gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 
     // Create grid layout
     grid = gtk_grid_new();
