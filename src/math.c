@@ -72,7 +72,10 @@ double divide(double a, double b, int *error) {
     return result;
     }
 }
-long long factorial(int n, int *error) {
+double factorial(double n, int *error) {
+    if (n != (int)n){
+        *error = 6;
+    }
     if (n < 0){
         if (error){
             *error = 1;
@@ -84,14 +87,14 @@ long long factorial(int n, int *error) {
             *error = 0;}
         return 1;
     }
-    //overflow check (21! doesn't fit long long)
+    //overflow check (21! doesn't fit double)
     if (n > 20) {
         if (error){
             *error = 1; // overflow error
         }
         return 0; 
     }
-    long long result = 1;
+    double result = 1;
     for (int i = 2; i <= n; i++) {
         result *= i;
     }   
