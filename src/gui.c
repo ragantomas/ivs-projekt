@@ -20,7 +20,10 @@ const char *err_msg[] = {
     "Error: No input for function",
     "Error: Number out of bounds",
     "Error: Division by 0",
-    "Error: Decimal number in factorial"
+    "Error: Decimal number in factorial",
+    "Error: Negative number in factorial",
+    "Error: Negative number or 0 in root",
+    "Error: Negative number or 0 in log"
 };
 /**
  * Handles button clicks (numbers and operators)
