@@ -18,7 +18,7 @@
 #include <stdlib.h>
 
 
-double parse_factorial(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+double parse_factorial(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
     for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == '!') {
             *parsed = true;
@@ -43,13 +43,13 @@ double parse_factorial(char *equation, unsigned int lenght, unsigned int *error,
     return 0.0;
 }
 
-double parse_power(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+double parse_power(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
     for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == '^') {
             *parsed = true;
 
-            char *equation_r = equation + character + 1;
-            char *equation_l = equation;
+            const char *equation_r = equation + character + 1;
+            const char *equation_l = equation;
             unsigned int lenght_r = lenght - character - 1;
             unsigned int lenght_l = character;
 
@@ -77,13 +77,13 @@ double parse_power(char *equation, unsigned int lenght, unsigned int *error, boo
     return 0.0;
 }
 
-double parse_root(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+double parse_root(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
     for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == 'r') {
             *parsed = true;
 
-            char *equation_r = equation + character + 1;
-            char *equation_l = equation;
+            const char *equation_r = equation + character + 1;
+            const char *equation_l = equation;
             unsigned int lenght_r = lenght - character - 1;
             unsigned int lenght_l = character;
 
@@ -111,11 +111,11 @@ double parse_root(char *equation, unsigned int lenght, unsigned int *error, bool
     return 0.0;
 }
 
-double parse_log(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+double parse_log(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
     for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == 'l') {
             *parsed = true;
-            char *equation_r = equation + character + 3;
+            const char *equation_r = equation + character + 3;
             unsigned int lenght_r = lenght - character - 3;
             if (lenght_r == 0) {
                 *error = 3;
@@ -133,13 +133,13 @@ double parse_log(char *equation, unsigned int lenght, unsigned int *error, bool 
     return 0.0;
 }
 
-double parse_mul(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+double parse_mul(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
     for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == '*') {
             *parsed = true;
 
-            char *equation_r = equation + character + 1;
-            char *equation_l = equation;
+            const char *equation_r = equation + character + 1;
+            const char *equation_l = equation;
             unsigned int lenght_r = lenght - character - 1;
             unsigned int lenght_l = character;
 
@@ -167,13 +167,13 @@ double parse_mul(char *equation, unsigned int lenght, unsigned int *error, bool 
     return 0.0;
 }
 
-double parse_div(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+double parse_div(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
     for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == '/') {
             *parsed = true;
 
-            char *equation_r = equation + character + 1;
-            char *equation_l = equation;
+            const char *equation_r = equation + character + 1;
+            const char *equation_l = equation;
             unsigned int lenght_r = lenght - character - 1;
             unsigned int lenght_l = character;
 
@@ -201,13 +201,13 @@ double parse_div(char *equation, unsigned int lenght, unsigned int *error, bool 
     return 0.0;
 }
 
-double parse_add(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+double parse_add(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
     for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == '+') {
             *parsed = true;
 
-            char *equation_r = equation + character + 1;
-            char *equation_l = equation;
+            const char *equation_r = equation + character + 1;
+            const char *equation_l = equation;
             unsigned int lenght_r = lenght - character - 1;
             unsigned int lenght_l = character;
 
@@ -235,13 +235,13 @@ double parse_add(char *equation, unsigned int lenght, unsigned int *error, bool 
     return 0.0;
 }
 
-double parse_sub(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
+double parse_sub(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
     for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == '-') {
             *parsed = true;
 
-            char *equation_r = equation + character + 1;
-            char *equation_l = equation;
+            const char *equation_r = equation + character + 1;
+            const char *equation_l = equation;
             unsigned int lenght_r = lenght - character - 1;
             unsigned int lenght_l = character;
 
@@ -274,7 +274,7 @@ double parse_sub(char *equation, unsigned int lenght, unsigned int *error, bool 
     return 0.0;
 }
 
-double parse_equation(char *equation, unsigned int lenght, unsigned int depth, unsigned int *error) {
+double parse_equation(const char *equation, unsigned int lenght, unsigned int depth, unsigned int *error) {
     bool parsed;
     double value;
     // parses for each operator, ignores the one for which it already checked
@@ -324,7 +324,7 @@ double parse_equation(char *equation, unsigned int lenght, unsigned int depth, u
     }
 }
 
-double parse_number(char *number, unsigned int lenght, unsigned int *error) {
+double parse_number(const char *number, unsigned int lenght, unsigned int *error) {
     int decimal_points = 0;
     for (unsigned int character = 0; character < lenght; character++) {
         // Catch multiple decimals in one number
@@ -344,7 +344,6 @@ double parse_number(char *number, unsigned int lenght, unsigned int *error) {
               number[character] == '8' ||
               number[character] == '9')) {
             *error = 2;
-            printf("%c \n", number[character]);
             return 0.0;
         }
     }
@@ -355,8 +354,8 @@ double parse_number(char *number, unsigned int lenght, unsigned int *error) {
     return strtod(number, NULL);
 }
 
-int main(int argc, char *argv[]) {
-   /* nuber test
+/*int main(int argc, char *argv[]) {
+    nuber test
     unsigned int error1 = 0;
     unsigned int error2 = 0;
     unsigned int error3 = 0;
@@ -372,11 +371,11 @@ int main(int argc, char *argv[]) {
     printf("%f Error: %i \n", num1, error1);
     printf("%f Error: %i \n", num2, error2);
     printf("%f Error: %i \n", num3, error3);
-    printf("%f Error: %i \n", num4, error4);*/
+    printf("%f Error: %i \n", num4, error4);
     unsigned int error1 = 0;
     char *equation1 = "123-7*12.5+-14/11r3^2!";
     double num1 = parse_equation(equation1, 22, 0, &error1);
     printf("%f Error: %i \n", num1, error1);
     return 0; //
-}
+}*/
 
