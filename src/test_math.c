@@ -1,4 +1,4 @@
-//======= Copyright (c) 2026, FIT VUT Brno, All rights reserved. ============//
+//======= FIT VUT Brno, All rights reserved. ============//
 //
 // Purpose:     math test
 //

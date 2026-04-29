@@ -17,10 +17,9 @@ build:
 
 test:
 	@mkdir -p build
-	$(CC) $(CFLAGS) -c test_math.c -o build/test_math.o
+	$(CC) $(CFLAGS) -c stddev.c -o build/stddev.o
 	$(CC) $(CFLAGS) -c math.c -o build/math.o
-	$(CC) $(CFLAGS) build/test_math.o build/math.o -o run_tests $(MATH_FLAGS)
-	./test_math
+	$(CC) $(CFLAGS) build/stddev.o build/math.o -o stddev $(MATH_FLAGS)
 
 pack: clean
 	mkdir -p ../$(TEAM_NAME)/repo

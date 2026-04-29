@@ -1,4 +1,4 @@
-//======= Copyright (c) 2026, FIT VUT Brno, GNU GPL V3.0 ============//
+//======= FIT VUT Brno, GNU GPL V3.0 ============//
 //
 // Purpose:     calculator parser
 //
