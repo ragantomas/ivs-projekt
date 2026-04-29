@@ -1,4 +1,4 @@
-xragant00 X (...)
-xvrabma00 X (...)
-xzakrad00 X (...)
-xkratkd00 X (...)
+xragant00 133% (dokumentácie, makefile, vedenie týmu, profiling)
+xvrabma00 0% (X)
+xzakrad00 133% (testy, debugging, profiling)
+xkratkd00 133% (GUI, mockup, parsing)
