@@ -79,7 +79,7 @@ double parse_power(char *equation, unsigned int lenght, unsigned int *error, boo
 
 double parse_root(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
     for (int character = lenght - 1; character >= 0; character--) {
-        if (equation[character] == 'r') { //TODO: this wil need fixing in gui
+        if (equation[character] == 'r') {
             *parsed = true;
 
             char *equation_r = equation + character + 1;
@@ -115,10 +115,6 @@ double parse_log(char *equation, unsigned int lenght, unsigned int *error, bool 
     for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == 'l') {
             *parsed = true;
-            if (character >= lenght - 2 || equation[character + 1] != 'o' || equation[character + 2] != 'g') {
-                *error = 99; // TODO: we ight be able to remove this
-                return 0.0;
-            }
             char *equation_r = equation + character + 3;
             unsigned int lenght_r = lenght - character - 3;
             if (lenght_r == 0) {
