@@ -19,7 +19,7 @@
 
 
 double parse_factorial(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
-    for (unsigned int character = 0; character < lenght; character++) {
+    for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == '!') {
             *parsed = true;
 
@@ -44,7 +44,7 @@ double parse_factorial(char *equation, unsigned int lenght, unsigned int *error,
 }
 
 double parse_power(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
-    for (unsigned int character = 0; character < lenght; character++) {
+    for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == '^') {
             *parsed = true;
 
@@ -78,7 +78,7 @@ double parse_power(char *equation, unsigned int lenght, unsigned int *error, boo
 }
 
 double parse_root(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
-    for (unsigned int character = 0; character < lenght; character++) {
+    for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == 'r') { //TODO: this wil need fixing in gui
             *parsed = true;
 
@@ -112,7 +112,7 @@ double parse_root(char *equation, unsigned int lenght, unsigned int *error, bool
 }
 
 double parse_log(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
-    for (unsigned int character = 0; character < lenght; character++) {
+    for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == 'l') {
             *parsed = true;
             if (character >= lenght - 2 || equation[character + 1] != 'o' || equation[character + 2] != 'g') {
@@ -138,7 +138,7 @@ double parse_log(char *equation, unsigned int lenght, unsigned int *error, bool 
 }
 
 double parse_mul(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
-    for (unsigned int character = 0; character < lenght; character++) {
+    for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == '*') {
             *parsed = true;
 
@@ -172,7 +172,7 @@ double parse_mul(char *equation, unsigned int lenght, unsigned int *error, bool 
 }
 
 double parse_div(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
-    for (unsigned int character = 0; character < lenght; character++) {
+    for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == '/') {
             *parsed = true;
 
@@ -206,7 +206,7 @@ double parse_div(char *equation, unsigned int lenght, unsigned int *error, bool 
 }
 
 double parse_add(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
-    for (unsigned int character = 0; character < lenght; character++) {
+    for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == '+') {
             *parsed = true;
 
@@ -240,8 +240,8 @@ double parse_add(char *equation, unsigned int lenght, unsigned int *error, bool 
 }
 
 double parse_sub(char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
-    for (unsigned int character = 0; character < lenght; character++) {
-        if (equation[character] == '+') {
+    for (int character = lenght - 1; character >= 0; character--) {
+        if (equation[character] == '-') {
             *parsed = true;
 
             char *equation_r = equation + character + 1;
@@ -348,6 +348,7 @@ double parse_number(char *number, unsigned int lenght, unsigned int *error) {
               number[character] == '8' ||
               number[character] == '9')) {
             *error = 2;
+            printf("%c \n", number[character]);
             return 0.0;
         }
     }
@@ -377,9 +378,9 @@ int main(int argc, char *argv[]) {
     printf("%f Error: %i \n", num3, error3);
     printf("%f Error: %i \n", num4, error4);*/
     unsigned int error1 = 0;
-    char *equation1 = "3^2!";
-    double num1 = parse_equation(equation1, 4, 0, &error1);
+    char *equation1 = "123-7*12.5+-14/11r3^2!";
+    double num1 = parse_equation(equation1, 22, 0, &error1);
     printf("%f Error: %i \n", num1, error1);
-    return 0;
+    return 0; //
 }
 
