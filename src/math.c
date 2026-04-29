@@ -13,6 +13,7 @@
  * @brief Library for calculting math functions
  */
 #include "math.h"
+#include <math.h>
 
 double add(double a, double b, int *error) {
     double result = a + b;
