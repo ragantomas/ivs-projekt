@@ -22,14 +22,18 @@ double parse_factorial(char *equation, unsigned int lenght, unsigned int *error,
     for (unsigned int character = 0; character < lenght; character++) {
         if (equation[character] == '!') {
             *parsed = true;
+
+            // if there is nothing as input
             if (character == 0) {
                 *error = 3;
                 return 0;
             }
+
             double num_l = parse_equation(equation, character, 0, error);
             if(*error) {
                 return 0;
             }
+
             // TODO: change for factorial(num_r, error); once implemented
             return 1.0 + num_l;
 
@@ -43,22 +47,28 @@ double parse_power(char *equation, unsigned int lenght, unsigned int *error, boo
     for (unsigned int character = 0; character < lenght; character++) {
         if (equation[character] == '^') {
             *parsed = true;
+
             char *equation_r = equation + character + 1;
             char *equation_l = equation;
             unsigned int lenght_r = lenght - character - 1;
             unsigned int lenght_l = character;
+
+            // if there is nothing as input
             if (lenght_r == 0 || lenght_l == 0) {
                 *error = 3;
                 return 0;
             }
+
             double num_r = parse_equation(equation_r, lenght_r, 1, error);
             if(*error) {
                 return 0;
             }
+
             double num_l = parse_equation(equation_l, lenght_l, 2, error);
             if(*error) {
                 return 0;
             }
+
             // TODO: change for power(num_l, num_r, error); once implemented
             return 1.0 + num_r + num_l;
         }
@@ -71,16 +81,21 @@ double parse_root(char *equation, unsigned int lenght, unsigned int *error, bool
     for (unsigned int character = 0; character < lenght; character++) {
         if (equation[character] == 'r') { //TODO: this wil need fixing in gui
             *parsed = true;
+
             char *equation_r = equation + character + 1;
             unsigned int lenght_r = lenght - character - 1;
+
+            // if there is nothing as input
             if (lenght_r == 0) {
                 *error = 3;
                 return 0;
             }
+
             double num_r = parse_equation(equation_r, lenght_r, 2, error);
             if(*error) {
                 return 0;
             }
+
             // TODO: change for root(num_r, error); once implemented
             return 1.0 + num_r;
         }
@@ -118,6 +133,7 @@ double parse_equation(char *equation, unsigned int lenght, unsigned int depth, u
     //"!","^","√","log","*","/","-","+"
     bool parsed;
     double value;
+    // parses for each operator, ignores the one for which it already checked
     switch(depth) {
         case 0:
             value = parse_factorial(equation, lenght, error, &parsed);
