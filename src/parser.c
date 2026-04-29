@@ -33,10 +33,7 @@ double parse_factorial(const char *equation, unsigned int lenght, unsigned int *
             if(*error) {
                 return 0.0;
             }
-
-            // TODO: change for factorial(num_r, error); once implemented
-            return 1.0 + num_l;
-
+            return factorial(num_l, error);
         }
     }
     *parsed = false;
@@ -68,9 +65,7 @@ double parse_power(const char *equation, unsigned int lenght, unsigned int *erro
             if(*error) {
                 return 0.0;
             }
-
-            // TODO: change for power(num_l, num_r, error); once implemented
-            return 1.0 + num_r + num_l;
+            return power(num_l, num_r, error);
         }
     }
     *parsed = false;
@@ -102,9 +97,7 @@ double parse_root(const char *equation, unsigned int lenght, unsigned int *error
             if(*error) {
                 return 0.0;
             }
-
-            // TODO: change for root(num_r, error); once implemented
-            return 1.0 + num_r + num_l;
+            return n_root(num_l, num_r, error);
         }
     }
     *parsed = false;
@@ -125,8 +118,7 @@ double parse_log(const char *equation, unsigned int lenght, unsigned int *error,
             if(*error) {
                 return 0.0;
             }
-            // TODO: change for log(num_r, error); once implemented
-            return 1.0 + num_r;
+            return logarithm(num_r, error);
         }
     }
     *parsed = false;
