@@ -1,7 +1,7 @@
 Prostředí
 ---------
 
-Linux
+Linux debian
 
 Autori
 ------
