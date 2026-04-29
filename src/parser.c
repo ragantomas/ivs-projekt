@@ -150,7 +150,6 @@ double parse_mul(const char *equation, unsigned int lenght, unsigned int *error,
             if(*error) {
                 return 0.0;
             }
-            printf("%f * %f\n", num_l, num_r);
             return mul(num_l, num_r, error);
         }
     }
@@ -216,7 +215,6 @@ double parse_add(const char *equation, unsigned int lenght, unsigned int *error,
             if(*error) {
                 return 0.0;
             }
-            printf("%f + %f\n", num_l, num_r);
             return add(num_l, num_r, error);
         }
     }
@@ -227,6 +225,18 @@ double parse_add(const char *equation, unsigned int lenght, unsigned int *error,
 double parse_sub(const char *equation, unsigned int lenght, unsigned int *error, bool *parsed) {
     for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == '-') {
+
+            // Skip unary minus
+            if (character == 0 ||
+                equation[character - 1] == '+' ||
+                equation[character - 1] == '-' ||
+                equation[character - 1] == '*' ||
+                equation[character - 1] == '/' ||
+                equation[character - 1] == '^' ||
+                equation[character - 1] == 'r' ||
+                equation[character - 1] == 'l') {
+                continue;
+            }
             *parsed = true;
 
             const char *equation_r = equation + character + 1;
@@ -234,7 +244,7 @@ double parse_sub(const char *equation, unsigned int lenght, unsigned int *error,
             unsigned int lenght_r = lenght - character - 1;
             unsigned int lenght_l = character;
 
-            // if there is nothing as input
+            // if there is nothing as input (continue on unary minus, no need to check it)
             if (lenght_r == 0) {
                 *error = 3;
                 return 0.0;
@@ -244,17 +254,11 @@ double parse_sub(const char *equation, unsigned int lenght, unsigned int *error,
             if(*error) {
                 return 0.0;
             }
-            // parsing possible negative numbers
-            double num_l;
-            if (lenght_l == 0) {
-                num_l = 0.0;
-            } else {
-                num_l = parse_equation(equation_l, lenght_l, 0, error);
-            }
+
+            double num_l = parse_equation(equation_l, lenght_l, 0, error);
             if(*error) {
                 return 0.0;
             }
-            printf("%f - %f\n", num_l, num_r);
             return sub(num_l, num_r, error);
         }
     }
@@ -315,10 +319,16 @@ double parse_equation(const char *equation, unsigned int lenght, unsigned int de
 double parse_number(const char *number, unsigned int lenght, unsigned int *error) {
     int decimal_points = 0;
     for (unsigned int character = 0; character < lenght; character++) {
+        // Allow unary minus if it is first
+        if (character == 0 && number[character] == '-') {
+            continue;
+        }
+
         // Catch multiple decimals in one number
         if (number[character] == '.') {
             decimal_points++;
         }
+
         // Catch nonstandard characters
         if (!(number[character] == '.' ||
               number[character] == '0' ||
