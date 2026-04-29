@@ -108,8 +108,8 @@ double parse_log(const char *equation, unsigned int lenght, unsigned int *error,
     for (int character = lenght - 1; character >= 0; character--) {
         if (equation[character] == 'l') {
             *parsed = true;
-            const char *equation_r = equation + character + 3;
-            unsigned int lenght_r = lenght - character - 3;
+            const char *equation_r = equation + character + 1;
+            unsigned int lenght_r = lenght - character - 1;
             if (lenght_r == 0) {
                 *error = 3;
                 return 0.0;
