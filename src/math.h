@@ -72,7 +72,7 @@ double divide(double a, double b, int *error);
  *
  * @return n!
  */
-long long factorial(int n, int *error);
+double factorial(double n, int *error);
 
 /**
  * @brief Computes power function
@@ -83,7 +83,7 @@ long long factorial(int n, int *error);
  *
  * @return base raised to the power exponent
  */
-double power(double base, int exponent, int *error);
+double power(double base, double exponent, int *error);
 
 /**
  * @brief Computes n-th root of a number
@@ -94,7 +94,7 @@ double power(double base, int exponent, int *error);
  *
  * @return n-th root of radicand
  */
-double n_root(int degree, double radicand, int *error);
+double n_root(double degree, double radicand, int *error);
 
 /**
  * @brief Computes base-10 logarithm
