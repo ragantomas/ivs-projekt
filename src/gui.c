@@ -68,6 +68,11 @@ gboolean on_key_press(GtkWidget *window, GdkEventKey *event, GtkWidget *display)
     const char *current_text = gtk_entry_get_text(GTK_ENTRY(display));
     char new_text[256];
 
+    // if error message is displayed, clear it first
+    if (current_text[0] == 'E') {
+        current_text = "";
+    }
+
     // Digits and operators
     if (g_unichar_isdigit(c) || c == '+' || c == '-' || c == '*' || c == '/' || c == '.' || c == '!' || c == '^') {
         snprintf(new_text, sizeof(new_text), "%s%c", current_text, (char)c);
@@ -77,7 +82,6 @@ gboolean on_key_press(GtkWidget *window, GdkEventKey *event, GtkWidget *display)
     else if (event->keyval == GDK_KEY_Return || event->keyval == GDK_KEY_KP_Enter) {
         //TODO: add parsing the expresion
     }
-    // Backspace TODO: backspace could delete characters based on pointer in display
     else if (event->keyval == GDK_KEY_BackSpace) {
         on_backspace_clicked(NULL, display);
         return TRUE;
@@ -88,12 +92,12 @@ gboolean on_key_press(GtkWidget *window, GdkEventKey *event, GtkWidget *display)
     }
     // Square root (r or R)
     else if (c == 'r' || c == 'R') {
-        snprintf(new_text, sizeof(new_text), "%s√", current_text);
+        snprintf(new_text, sizeof(new_text), "%sr", current_text);
         gtk_entry_set_text(GTK_ENTRY(display), new_text);
     }
     // log (l key)
     else if (c == 'l' || c == 'L') {
-        snprintf(new_text, sizeof(new_text), "%slog", current_text);
+        snprintf(new_text, sizeof(new_text), "%sl", current_text);
         gtk_entry_set_text(GTK_ENTRY(display), new_text);
     }
 
@@ -134,7 +138,7 @@ int run_calculator(int argc, char *argv[]) {
         "4", "5", "6", "-",
         "1", "2", "3", "+",
         "0", ".", "!", "log",
-        "√", "^", "="
+        "r", "^", "="
     };
     // Tooltip strings with descrioptions of buttons
     const char *tooltips[] = {
