@@ -19,9 +19,19 @@
 void on_button_clicked(GtkWidget *button, GtkWidget *display) {
     const char *button_text = gtk_button_get_label(GTK_BUTTON(button));
     const char *current_text = gtk_entry_get_text(GTK_ENTRY(display));
+    // if error message is displayed, clear it first
+    if (current_text[0] == 'E') {
+        current_text = "";
+    }
 
     char new_text[256];
-    snprintf(new_text, sizeof(new_text), "%s%s", current_text, button_text);
+    if (button_text[0] == '=') {
+        unsigned int error = 0;
+        double num = 0; //parse_equation(current_text, strlen(current_text), 0, &error)
+        snprintf(new_text, sizeof(new_text), "%f", current_text);
+    } else {
+        snprintf(new_text, sizeof(new_text), "%s%c", current_text, button_text[0]);
+    }
 
     gtk_entry_set_text(GTK_ENTRY(display), new_text);
     gtk_editable_set_position(GTK_EDITABLE(display), -1);
