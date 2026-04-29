@@ -37,7 +37,7 @@ run: build
 	./calculator
 
 stddev:
-	$(CC) $(CFLAGS) -pg -fno-pie stddev.c math.c -o stddev $(MATH_FLAGS)
+	$(CC) $(CFLAGS) -pg stddev.c math.c -o stddev $(MATH_FLAGS)
 
 
 clean:
