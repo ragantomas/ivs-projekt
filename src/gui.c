@@ -41,7 +41,7 @@ void on_button_clicked(GtkWidget *button, GtkWidget *display) {
         if (error) {
             strcpy(new_text, err_msg[error - 1]);
         } else {
-            snprintf(new_text, sizeof(new_text), "%d", num);
+            snprintf(new_text, sizeof(new_text), "%f", num);
         }
     } else {
         snprintf(new_text, sizeof(new_text), "%s%c", current_text, button_text[0]);
