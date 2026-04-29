@@ -106,6 +106,9 @@ double factorial(double n, int *error) {
     return result; 
 }
 double power(double base, double exponent, int *error) {
+    if (exponent != (int)exponent){
+        *error = 11; // Decimal number in exponent
+    }
     if (exponent == 0) {
         if (error) {
             *error = 0;
@@ -146,15 +149,19 @@ double power(double base, double exponent, int *error) {
     return result;
 }
 double n_root(double degree, double radicand, int *error) {
+    if (degree != (int)degree){
+        *error = 12; // Decimal number in degree
+    }
     if (degree <= 0) {
         if (error) {
-            *error = 8;} // negative number or 0 in root
+            *error = 8; // negative number or 0 in root
+        }
         return 0.0;
     }
 
-    if (radicand < 0 && degree % 2 == 0) {
+    if (radicand < 0 && (int)degree % 2 == 0) {
         if (error) {
-            *error = 8; // negative number in root
+            *error = 9; // root does not exist
         }
         return 0.0;
     }
@@ -200,7 +207,7 @@ double n_root(double degree, double radicand, int *error) {
 double logarithm(double x, int *error) {
     if (x <= 0) {
         if (error) {
-            *error = 9; // Negative number or 0 in log
+            *error = 10; // Negative number or 0 in log
         }
         return 0.0; 
     }
