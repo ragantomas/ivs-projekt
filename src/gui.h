@@ -24,6 +24,7 @@
 #include <string.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
+#include "parser.c"
 
 /**
  * @brief Handles button clicks (numbers and operators)

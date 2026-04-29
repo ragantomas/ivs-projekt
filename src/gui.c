@@ -13,12 +13,20 @@
  * @brief graphical user interface of the calculator app
  */
 #include "gui.h"
+
+const char *err_msg[] = {
+    "Error: Multimle decimal points",
+    "Error: Unrecognized character",
+    "Error: No input for function",
+    "Error:",
+};
 /**
  * Handles button clicks (numbers and operators)
  */
 void on_button_clicked(GtkWidget *button, GtkWidget *display) {
     const char *button_text = gtk_button_get_label(GTK_BUTTON(button));
     const char *current_text = gtk_entry_get_text(GTK_ENTRY(display));
+
     // if error message is displayed, clear it first
     if (current_text[0] == 'E') {
         current_text = "";
@@ -27,8 +35,14 @@ void on_button_clicked(GtkWidget *button, GtkWidget *display) {
     char new_text[256];
     if (button_text[0] == '=') {
         unsigned int error = 0;
-        double num = 0; //parse_equation(current_text, strlen(current_text), 0, &error)
-        snprintf(new_text, sizeof(new_text), "%f", current_text);
+        double num = parse_equation(current_text, strlen(current_text), 0, &error);
+
+        // if error reached, show error message
+        if (error) {
+            strcpy(new_text, err_msg[error - 1]);
+        } else {
+            snprintf(new_text, sizeof(new_text), "%d", num);
+        }
     } else {
         snprintf(new_text, sizeof(new_text), "%s%c", current_text, button_text[0]);
     }
