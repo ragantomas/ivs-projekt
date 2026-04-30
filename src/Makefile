@@ -14,7 +14,7 @@ build:
 	$(CC) $(CFLAGS) $(GTK_INC) -c gui.c -o build/gui.o
 	$(CC) $(CFLAGS) -c parser.c -o build/parser.o
 	$(CC) $(CFLAGS) -c math.c -o build/math.o
-	$(CC) $(CFLAGS) build/gui.o build/math.o -o calculator $(GTK_FLAGS) $(MATH_FLAGS)
+	$(CC) $(CFLAGS) build/gui.o build/math.o build/parser.o -o calculator $(GTK_FLAGS) $(MATH_FLAGS)
 
 test:
 	@mkdir -p build
